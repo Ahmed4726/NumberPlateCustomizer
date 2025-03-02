@@ -53,11 +53,11 @@
         }
 
         .border {
-    position: relative;
-    border: none; /* Remove the outer border */
-    outline: 1px solid black; /* Creates an inner border effect */
-    outline-offset: -7px; /* Moves the outline inside the div */
-}
+            position: relative;
+            border: none; /* Remove the outer border */
+            outline: 1px solid black; /* Creates an inner border effect */
+            outline-offset: -7px; /* Moves the outline inside the div */
+        }
 
 
 
@@ -162,7 +162,7 @@
         <div class="plate front" id="front_plate">
             <div class="flag-container" id="front_flag"></div>
             <span class="plate-text">YOUR REG</span>
-            <div class="bottom-line" id="front_bottom_line"></div>
+            <div class="bottom-line"  id="front_bottom_line"></div>
         </div>
         <div class="plate back" id="back_plate">
             <div class="flag-container" id="back_flag"></div>
