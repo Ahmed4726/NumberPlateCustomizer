@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Number Plate Customizer</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+@extends('layouts.app')
+@section('content')
     <style>
+        @font-face {
+            font-family: 'Charles Wright';
+            src: url('fonts/CharlesWright-Bold.woff') format('woff'),
+                url('fonts/CharlesWright-Bold.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
         body {
             background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
+            font-family: sans-serif;
         }
 
         .container {
@@ -39,6 +37,8 @@
             max-width: 330px;
             position: relative;
             border-radius: 5px;
+            font-family: 'Charles Wright', sans-serif;
+
             /* border: -1px solid black;l */
         }
 
@@ -53,11 +53,31 @@
         }
 
         .border {
-            position: relative;
-            border: none; /* Remove the outer border */
-            outline: 1px solid black; /* Creates an inner border effect */
-            outline-offset: -7px; /* Moves the outline inside the div */
-        }
+    position: relative;
+    border: none; /* Remove the outer border */
+    outline: 1px solid black; /* Creates an inner border effect */
+    outline-offset: -7px; /* Moves the outline inside the div */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.border::after {
+    content: attr(data-bottom-text); /* Dynamically set content */
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5px;
+    font-family: "Charles Wright";
+    color: black;
+    background: inherit;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+
+
 
 
 
@@ -99,8 +119,15 @@
         }
 
 
-        .layout-3D { text-shadow: 2px 2px 2px grey; }
-        .layout-4D { text-shadow: 4px 4px 4px black; }
+        .layout-3D {
+            /* font-weight: bold; */
+            color: rgb(0, 0, 0); /* Slight transparency for glass effect */
+            text-shadow:
+                1px 1px 2px rgba(0, 0, 0, 0.7),  /* Dark shadow for depth */
+                -1px -1px 2px rgba(255, 255, 255, 0.5); /* Light reflection effect */
+            /* backdrop-filter: blur(5px); Optional: Adds frosted glass effect */
+        }
+        .layout-4D { text-shadow: 2px 2px 2px gray; }
 
         .bottom-line {
             position: absolute;
@@ -111,7 +138,6 @@
             font-weight: bold;
         }
     </style>
-</head>
 <body>
 
 <div class="container mt-5">
@@ -152,10 +178,10 @@
     </div>
 
     <!-- Bottom Line Input -->
-    <div class="text-center mt-3">
+    {{-- <div class="text-center mt-3">
         <label class="form-label">BOTTOM LINE TEXT:</label>
         <input type="text" id="bottom_line" class="bottom-line-input" placeholder="Enter Bottom Text" maxlength="20">
-    </div>
+    </div> --}}
 
     <!-- Plate Preview -->
     <div class="plate-preview mt-4">
@@ -177,57 +203,60 @@
 </div>
 
 <script>
-    function updatePreview() {
-        let plateText = $('#plate_text').val().toUpperCase();
-        let bottomText = $('#bottom_line').val();
-        let layout = $('.btn-style.btn-selected').attr('data-style');
-        let plateType = $('#plate_type').val();
-        let border = $('#plate_border').val();
+function updatePreview() {
+    let plateText = $('#plate_text').val().toUpperCase();
+    let bottomText = $('#bottom_line').val();
+    let layout = $('.btn-style.btn-selected').attr('data-style');
+    let plateType = $('#plate_type').val();
+    let border = $('#plate_border').val();
 
-        $('.plate-text').text(plateText || 'YOUR REG');
-        $('.bottom-line').text(bottomText);
+    $('.plate-text').text(plateText || 'YOUR REG');
+    $('.bottom-line').text(bottomText);
 
-        $('#front_plate, #back_plate').removeClass('layout-3D layout-4D border');
+    $('#front_plate, #back_plate').removeClass('layout-3D layout-4D border');
 
-        if (layout === '3D') {
-            $('#front_plate, #back_plate').addClass('layout-3D');
-        } else if (layout === '4D') {
-            $('#front_plate, #back_plate').addClass('layout-4D');
-        }
-
-        if (border === 'border') {
-            $('#front_plate, #back_plate').addClass('border');
-        }
-
-        if (plateType === 'front') {
-            $('#front_plate').show();
-            $('#back_plate').hide();
-        } else if (plateType === 'rear') {
-            $('#front_plate').hide();
-            $('#back_plate').show();
-        } else {
-            $('#front_plate, #back_plate').show();
-        }
+    if (layout === '3D') {
+        $('#front_plate, #back_plate').addClass('layout-3D');
+    } else if (layout === '4D') {
+        $('#front_plate, #back_plate').addClass('layout-4D');
     }
 
-    $('#plate_text, #bottom_line').on('input', updatePreview);
-    $('#plate_type, #plate_border').on('change', updatePreview);
+    if (border === 'border') {
+        $('#front_plate, #back_plate').addClass('border')
+            .attr('data-bottom-text', bottomText); // Set bottom text dynamically
+            $('#front_bottom_line, #back_bottom_line').addClass('d-none');
+    } else {
+        $('#front_plate, #back_plate').removeAttr('data-bottom-text'); // Remove if no border
+        $('#front_bottom_line, #back_bottom_line').removeClass('d-none');
+    }
 
-    $('.btn-style').on('click', function() {
-        $('.btn-style').removeClass('btn-selected');
-        $(this).addClass('btn-selected');
-        updatePreview();
-    });
+    if (plateType === 'front') {
+        $('#front_plate').show();
+        $('#back_plate').hide();
+    } else if (plateType === 'rear') {
+        $('#front_plate').hide();
+        $('#back_plate').show();
+    } else {
+        $('#front_plate, #back_plate').show();
+    }
+}
 
-    $('#save').on('click', function() {
-        alert("Customization saved!");
-    });
+$('#plate_text, #bottom_line').on('input', updatePreview);
+$('#plate_type, #plate_border').on('change', updatePreview);
 
+$('.btn-style').on('click', function() {
+    $('.btn-style').removeClass('btn-selected');
+    $(this).addClass('btn-selected');
     updatePreview();
+});
+
+$('#save').on('click', function() {
+    alert("Customization saved!");
+});
+
+updatePreview();
+
+
 </script>
+@endsection
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>

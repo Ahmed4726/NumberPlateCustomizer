@@ -9,6 +9,7 @@ class NumberPlateController extends Controller
 {
     public function index()
     {
+        // dd('ok');
         return view('customizer');
     }
 
