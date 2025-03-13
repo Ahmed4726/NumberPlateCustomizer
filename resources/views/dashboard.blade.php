@@ -1,4 +1,5 @@
-@extends('dashboard_layout')
+@extends('layouts.dashboard_layout')
+
 @section('content')
 <!-- Inside your header, for example, after the user profile info -->
 
@@ -150,10 +151,10 @@
   <h4>Quick Actions</h4>
   <div class="row">
     <div class="col-md-3 mb-4">
-      <a href="/create-product" class="btn btn-info btn-block">Create Product</a>
+      <a href="/products" class="btn btn-info btn-block">Create Product</a>
     </div>
     <div class="col-md-3 mb-4">
-      <a href="/orders" class="btn btn-warning btn-block">View Orders</a>
+      <a href="/order" class="btn btn-warning btn-block">View Orders</a>
     </div>
     <div class="col-md-3 mb-4">
       <a href="/users" class="btn btn-success btn-block">Manage Users</a>
@@ -196,7 +197,7 @@
 </div>
 
 
-  
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

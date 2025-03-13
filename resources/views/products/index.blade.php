@@ -1,12 +1,12 @@
-@extends('dashboard_layout')
+@extends('layouts.dashboard_layout')
 @section('content')
 <!-- Product List Page -->
 <div class="container mt-4">
   <h3>Product Management</h3>
-  
+
   <!-- Button to trigger the "Add Product" modal -->
   <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#addProductModal">Add New Product</button>
-  
+
   <!-- Product Table -->
   <table class="table table-striped">
     <thead>
@@ -120,7 +120,7 @@
 
 <script>
   // Fill the Edit Product Modal with existing product data when the Edit button is clicked
-  
+
   // Fill the Edit Product Modal with existing product data when the Edit button is clicked
   $('#editProductModal').on('show.bs.modal', function (event) {
     // alert('abc')
@@ -129,14 +129,14 @@
     var productName = button.data('name'); // Extract product name
     var productDescription = button.data('description'); // Extract product description
     var productPrice = button.data('price'); // Extract product price
-    
+
     var modal = $(this);
-    
+
     // Set the modal form values
     modal.find('.modal-body #editProductName').val(productName);
     modal.find('.modal-body #editProductDescription').val(productDescription);
     modal.find('.modal-body #editProductPrice').val(productPrice);
-    
+
     // Set the form action to the correct route for editing
     modal.find('form').attr('action', '/products/' + productId);
   });

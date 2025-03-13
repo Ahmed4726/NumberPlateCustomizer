@@ -1,4 +1,5 @@
-@extends('dashboard_layout')
+@extends('layouts.dashboard_layout')
+
 @section('content')
 <div class="container mt-4">
   <h3>Order Management</h3>
