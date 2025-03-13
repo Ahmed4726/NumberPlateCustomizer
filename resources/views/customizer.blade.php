@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.f_layout')
 @section('content')
     <style>
         @font-face {
@@ -10,6 +10,10 @@
         }
         body {
             background-color: #f8f9fa;
+            background-image: url('images/michelle-spollen-dC2FsjoXsPQ-unsplash.jpg'); /* Add your image path here */
+            background-size: cover; /* Make the image cover the entire page */
+            background-position: center center; /* Center the background image */
+            background-attachment: fixed; /* Fix the image in place while scrolling */
             font-family: sans-serif;
         }
 
@@ -38,8 +42,6 @@
             position: relative;
             border-radius: 5px;
             font-family: 'Charles Wright', sans-serif;
-
-            /* border: -1px solid black;l */
         }
 
         .front {
@@ -53,33 +55,28 @@
         }
 
         .border {
-    position: relative;
-    border: none; /* Remove the outer border */
-    outline: 1px solid black; /* Creates an inner border effect */
-    outline-offset: -7px; /* Moves the outline inside the div */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+            position: relative;
+            border: none;
+            outline: 1px solid black;
+            outline-offset: -7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.border::after {
-    content: attr(data-bottom-text); /* Dynamically set content */
-    position: absolute;
-    bottom: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 5px;
-    font-family: "Charles Wright";
-    color: black;
-    background: inherit;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-
-
-
-
+        .border::after {
+            content: attr(data-bottom-text);
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5px;
+            font-family: "Charles Wright";
+            color: black;
+            background: inherit;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
 
         .plate-input, .bottom-line-input {
             width: 100%;
@@ -118,16 +115,16 @@
             height: 100%;
         }
 
-
         .layout-3D {
-            /* font-weight: bold; */
-            color: rgb(0, 0, 0); /* Slight transparency for glass effect */
+            color: rgb(0, 0, 0);
             text-shadow:
-                1px 1px 2px rgba(0, 0, 0, 0.7),  /* Dark shadow for depth */
-                -1px -1px 2px rgba(255, 255, 255, 0.5); /* Light reflection effect */
-            /* backdrop-filter: blur(5px); Optional: Adds frosted glass effect */
+                1px 1px 2px rgba(0, 0, 0, 0.7),
+                -1px -1px 2px rgba(255, 255, 255, 0.5);
         }
-        .layout-4D { text-shadow: 2px 2px 2px gray; }
+
+        .layout-4D {
+            text-shadow: 2px 2px 2px gray;
+        }
 
         .bottom-line {
             position: absolute;
@@ -152,7 +149,7 @@
     <div class="row">
         <div class="col-md-6">
             <label class="form-label">PLATE TYPE:</label>
-            <select id="plate_type" class="form-select">
+            <select id="plate_type" class="form-control">
                 <option value="both">Front & Rear</option>
                 <option value="front">Front Only</option>
                 <option value="rear">Rear Only</option>
@@ -160,7 +157,7 @@
         </div>
         <div class="col-md-6">
             <label class="form-label">BORDER:</label>
-            <select id="plate_border" class="form-select">
+            <select id="plate_border" class="form-control">
                 <option value="none">No Border</option>
                 <option value="border">Black Border</option>
             </select>
@@ -170,18 +167,12 @@
     <!-- Text Style Buttons -->
     <div class="text-center mt-3">
         <label class="form-label">CHOOSE TEXT STYLE:</label>
-        <div class="btn-group" role="group">
+        <div class="btn-group form-control" role="group">
             <button type="button" class="btn btn-outline-dark btn-style btn-selected" data-style="normal">Normal</button>
             <button type="button" class="btn btn-outline-dark btn-style" data-style="4D">4D</button>
             <button type="button" class="btn btn-outline-dark btn-style" data-style="3D">3D</button>
         </div>
     </div>
-
-    <!-- Bottom Line Input -->
-    {{-- <div class="text-center mt-3">
-        <label class="form-label">BOTTOM LINE TEXT:</label>
-        <input type="text" id="bottom_line" class="bottom-line-input" placeholder="Enter Bottom Text" maxlength="20">
-    </div> --}}
 
     <!-- Plate Preview -->
     <div class="plate-preview mt-4">
@@ -196,10 +187,6 @@
             <div class="bottom-line" id="back_bottom_line"></div>
         </div>
     </div>
-
-    {{-- <div class="text-center mt-3">
-        <button id="save" class="btn btn-dark w-100">Save Customization</button>
-    </div> --}}
 </div>
 
 <script>
@@ -223,10 +210,10 @@ function updatePreview() {
 
     if (border === 'border') {
         $('#front_plate, #back_plate').addClass('border')
-            .attr('data-bottom-text', bottomText); // Set bottom text dynamically
-            $('#front_bottom_line, #back_bottom_line').addClass('d-none');
+            .attr('data-bottom-text', bottomText);
+        $('#front_bottom_line, #back_bottom_line').addClass('d-none');
     } else {
-        $('#front_plate, #back_plate').removeAttr('data-bottom-text'); // Remove if no border
+        $('#front_plate, #back_plate').removeAttr('data-bottom-text');
         $('#front_bottom_line, #back_bottom_line').removeClass('d-none');
     }
 
@@ -255,8 +242,5 @@ $('#save').on('click', function() {
 });
 
 updatePreview();
-
-
 </script>
 @endsection
-

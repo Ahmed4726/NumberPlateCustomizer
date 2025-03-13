@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NumberPlateController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', [NumberPlateController::class, 'index']);
 Route::post('/save-customization', [NumberPlateController::class, 'store']);
@@ -21,3 +22,10 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::view('order','order');
+Route::view( 'product','product');
+Route::resource('products', ProductController::class);
