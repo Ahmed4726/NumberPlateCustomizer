@@ -1,9 +1,9 @@
 <!-- Footer -->
 <footer class="text-center text-lg-start bg-light mt-5 text-muted">
   <!-- Section: Social media -->
-  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom border-dark" style="background-color: rgba(0, 0, 0, 0.05);">
     <!-- Left -->
-    <div class="me-5 d-none d-lg-block">
+    <div class="d-none d-lg-block mt-3">
       <span>Get connected with us on social networks:</span>
     </div>
     <!-- Left -->
@@ -69,10 +69,10 @@
   <!-- Section: Social media -->
 
   <!-- Section: Links -->
-  <section class="">
-    <div class="container-fluid text-center text-md-start mt-5">
+  <section class="pt-5" style="background-color: rgba(0, 0, 0, 0.05);">
+    <div class="container-fluid text-center text-md-start mt-5" >
       <!-- Grid row -->
-      <div class="row mt-3">
+      <div class="row mt-3" >
         <!-- Grid column -->
         <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
           <h6 class="text-uppercase fw-bold mb-4">

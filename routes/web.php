@@ -31,3 +31,5 @@ require __DIR__.'/auth.php';
 
 Auth::routes();
 
+Route::view('about','about');
+Route::view('contact','contact');

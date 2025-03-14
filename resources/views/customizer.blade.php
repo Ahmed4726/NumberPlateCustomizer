@@ -10,39 +10,64 @@
         }
         body {
             background-color: #f8f9fa;
-            background-image: url('images/michelle-spollen-dC2FsjoXsPQ-unsplash.jpg'); /* Add your image path here */
+            /* background-image: url('images/michelle-spollen-dC2FsjoXsPQ-unsplash.jpg');  */
             background-size: cover; /* Make the image cover the entire page */
             background-position: center center; /* Center the background image */
             background-attachment: fixed; /* Fix the image in place while scrolling */
             font-family: sans-serif;
         }
 
-        .container {
+        /* .container {
             max-width: 800px;
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
+        } */
 
         .plate-preview {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            /* gap: 10px; */
         }
 
         .plate {
-            font-size: 36px;
-            font-weight: bold;
-            text-align: center;
-            padding: 15px;
-            width: 100%;
-            max-width: 330px;
-            position: relative;
-            border-radius: 5px;
-            font-family: 'Charles Wright', sans-serif;
-        }
+    margin: -6px;
+    font-size: 100px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    border-radius: 15px;
+    font-family: 'Charles Wright', sans-serif;
+}
+
+/* Medium Devices (tablets, 768px and up) */
+@media (max-width: 1024px) {
+    .plate {
+        font-size: 80px;  /* Smaller font size for medium screens */
+        margin: 0;        /* Adjust margin */
+    }
+}
+
+/* Small Devices (phones, 600px and up) */
+@media (max-width: 768px) {
+    .plate {
+        font-size: 60px;  /* Smaller font size for smaller screens */
+        margin: 0;        /* Adjust margin */
+    }
+}
+
+/* Extra Small Devices (phones less than 600px) */
+@media (max-width: 480px) {
+    .plate {
+        font-size: 50px;  /* Even smaller font size for very small screens */
+        margin: 0;        /* Adjust margin */
+    }
+}
+
 
         .front {
             background-color: #E7E7E7;
@@ -57,7 +82,7 @@
         .border {
             position: relative;
             border: none;
-            outline: 1px solid black;
+            outline: 3px solid black;
             outline-offset: -7px;
             display: flex;
             align-items: center;
@@ -136,12 +161,39 @@
         }
     </style>
 <body>
-
+<div id="carouselExampleIndicators" class="carousel slide">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src='images/michelle-spollen-dC2FsjoXsPQ-unsplash.jpg' class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src='images/michelle-spollen-dC2FsjoXsPQ-unsplash.jpg' class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src='images/michelle-spollen-dC2FsjoXsPQ-unsplash.jpg' class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Number Plate Customizer</h2>
+    <div class="row">
+        <div class="col-md-6">
+    <!-- <h2 class="text-center mb-4">Number Plate Customizer</h2> -->
 
     <!-- Large Input Field -->
-    <div class="text-center mb-3">
+    <div class="text-center mb-3 mt-5">
         <input type="text" id="plate_text" class="plate-input" placeholder="ENTER REG" maxlength="10">
     </div>
 
@@ -174,19 +226,32 @@
         </div>
     </div>
 
-    <!-- Plate Preview -->
-    <div class="plate-preview mt-4">
+ 
+    </div>
+    <div class="col-md-6">
+<div class=" p-3">
+   <!-- Plate Preview -->
+   <div class="plate-preview mt-4">
         <div class="plate front" id="front_plate">
             <div class="flag-container" id="front_flag"></div>
             <span class="plate-text">YOUR REG</span>
             <div class="bottom-line"  id="front_bottom_line"></div>
         </div>
+     
+    </div>
+    <div class="plate-preview mt-4">
+       
         <div class="plate back" id="back_plate">
             <div class="flag-container" id="back_flag"></div>
             <span class="plate-text">YOUR REG</span>
             <div class="bottom-line" id="back_bottom_line"></div>
         </div>
     </div>
+    <a href="#" class="btn btn-primary mt-4"><i class="fas fa-shopping-cart"></i>Add to Cart</a>
+</div>
+    </div>
+    </div>
+    
 </div>
 
 <script>
