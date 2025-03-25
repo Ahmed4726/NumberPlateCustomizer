@@ -33,16 +33,20 @@
         }
 
         .plate {
-    margin: -6px;
-    font-size: 100px;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-    max-width: 900px;
-    position: relative;
-    border-radius: 15px;
-    font-family: 'Charles Wright', sans-serif;
-}
+            margin: -6px;
+            font-size: 100px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+            border-radius: 15px;
+            font-family: 'Charles Wright', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 125px;
+        }
 
 /* Medium Devices (tablets, 768px and up) */
 @media (max-width: 1024px) {
@@ -68,6 +72,48 @@
     }
 }
 
+/* Flag Container (Left Side) */
+.flag-container {
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin-top: 30px;
+    margin-left: 10px;
+}
+
+
+/* Small Screens (Mobile) */
+@media screen and (max-width: 768px) {
+    .flag-container {
+        width: 80px;
+        height: 40%;
+        margin-top: 20px;
+        margin-left: 5px;
+    }
+}
+
+/* Extra Small Screens (Phones) */
+@media screen and (max-width: 480px) {
+    .flag-container {
+        width: 60px;
+        height: 35%;
+        margin-top: 15px;
+        margin-left: 5px;
+    }
+}
+
+
+/* Flag Image */
+.flag-image {
+    /* max-width: 100%; */
+    height: auto;
+}
+
 
         .front {
             background-color: #E7E7E7;
@@ -83,7 +129,7 @@
             position: relative;
             border: none;
             outline: 3px solid black;
-            outline-offset: -7px;
+            outline-offset: -12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -126,14 +172,7 @@
             color: white !important;
         }
 
-        .flag-container {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 30px;
-        }
+
 
         .flag-container img {
             width: 100%;
@@ -159,6 +198,11 @@
             font-size: 16px;
             font-weight: bold;
         }
+
+        /* .plate.back {
+        background-color: darkgoldenrod;
+    } */
+
     </style>
 <body>
 <div id="carouselExampleIndicators" class="carousel slide">
@@ -194,71 +238,192 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-    <!-- <h2 class="text-center mb-4">Number Plate Customizer</h2> -->
+            <div class="text-center mb-3 mt-5">
+                <input type="text" id="plate_text" class="plate-input" placeholder="ENTER REG" maxlength="10">
+            </div>
 
-    <!-- Large Input Field -->
-    <div class="text-center mb-3 mt-5">
-        <input type="text" id="plate_text" class="plate-input" placeholder="ENTER REG" maxlength="10">
-    </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">PLATE TYPE:</label>
+                    <select id="plate_type" class="form-control">
+                        <option value="both">Front & Rear</option>
+                        <option value="front">Front Only</option>
+                        <option value="rear">Rear Only</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">BORDER:</label>
+                    <select id="plate_border" class="form-control">
+                        <option value="none">No Border</option>
+                        <option value="border">Black Border</option>
+                    </select>
+                </div>
+            </div>
 
-    <!-- Dropdown Options -->
-    <div class="row">
+            <!-- Flag Selection -->
+            <div class="mt-3">
+                <label class="form-label">FLAG:</label>
+                <select id="plate_flag" class="form-control">
+                    <option value="none">No Flag</option>
+                    <option value="eu">EU</option>
+                    <option value="gb">GB</option>
+                    <option value="uk">UK</option>
+                </select>
+            </div>
+
+            <div class="text-center mt-3">
+                <label class="form-label">CHOOSE TEXT STYLE:</label>
+                <div class="btn-group form-control" role="group">
+                    <button type="button" class="btn btn-outline-dark btn-style btn-selected" data-style="normal">Normal</button>
+                    <button type="button" class="btn btn-outline-dark btn-style" data-style="4D">4D</button>
+                    <button type="button" class="btn btn-outline-dark btn-style" data-style="3D">3D</button>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-6">
-            <label class="form-label">PLATE TYPE:</label>
-            <select id="plate_type" class="form-control">
-                <option value="both">Front & Rear</option>
-                <option value="front">Front Only</option>
-                <option value="rear">Rear Only</option>
-            </select>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label">BORDER:</label>
-            <select id="plate_border" class="form-control">
-                <option value="none">No Border</option>
-                <option value="border">Black Border</option>
-            </select>
-        </div>
-    </div>
-
-    <!-- Text Style Buttons -->
-    <div class="text-center mt-3">
-        <label class="form-label">CHOOSE TEXT STYLE:</label>
-        <div class="btn-group form-control" role="group">
-            <button type="button" class="btn btn-outline-dark btn-style btn-selected" data-style="normal">Normal</button>
-            <button type="button" class="btn btn-outline-dark btn-style" data-style="4D">4D</button>
-            <button type="button" class="btn btn-outline-dark btn-style" data-style="3D">3D</button>
+            <div class="" style="padding-left: 37px; padding-right: 40px;">
+                <div class="plate-preview mt-4">
+                    <div class="plate front" id="front_plate">
+                        <div class="flag-container" id="front_flag"></div>
+                        <span class="plate-text">YOUR REG</span>
+                        <div class="bottom-line" id="front_bottom_line"></div>
+                    </div>
+                </div>
+                <div class="plate-preview mt-4">
+                    <div class="plate back" id="back_plate">
+                        <div class="flag-container" id="back_flag"></div>
+                        <span class="plate-text ">YOUR REG</span>
+                        <div class="bottom-line" id="back_bottom_line"></div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary mt-4 mx-4" id="addToCart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+            </div>
         </div>
     </div>
-
- 
-    </div>
-    <div class="col-md-6">
-<div class=" p-3">
-   <!-- Plate Preview -->
-   <div class="plate-preview mt-4">
-        <div class="plate front" id="front_plate">
-            <div class="flag-container" id="front_flag"></div>
-            <span class="plate-text">YOUR REG</span>
-            <div class="bottom-line"  id="front_bottom_line"></div>
-        </div>
-     
-    </div>
-    <div class="plate-preview mt-4">
-       
-        <div class="plate back" id="back_plate">
-            <div class="flag-container" id="back_flag"></div>
-            <span class="plate-text">YOUR REG</span>
-            <div class="bottom-line" id="back_bottom_line"></div>
-        </div>
-    </div>
-    <a href="#" class="btn btn-primary mt-4"><i class="fas fa-shopping-cart"></i>Add to Cart</a>
 </div>
-    </div>
-    </div>
-    
+
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
+document.getElementById("addToCart").addEventListener("click", function (e) {
+    e.preventDefault();
+
+    let plateText = document.getElementById("plate_text").value.trim();
+    let plateType = document.getElementById("plate_type").value;
+    let plateBorder = document.getElementById("plate_border").value;
+    let plateFlag = document.getElementById("plate_flag").value;
+    let plateStyleElement = document.querySelector(".btn-style.btn-selected");
+    let plateStyle = plateStyleElement ? plateStyleElement.dataset.style : null;
+
+    let backPlatePromise = Promise.resolve(null);
+    let frontPlatePromise = Promise.resolve(null);
+
+    if (plateType === "rear" || plateType === "both") {
+        backPlatePromise = html2canvas(document.getElementById("back_plate")).then(canvas => canvas.toDataURL("image/png"));
+    }
+
+    if (plateType === "front" || plateType === "both") {
+        frontPlatePromise = html2canvas(document.getElementById("front_plate")).then(canvas => canvas.toDataURL("image/png"));
+    }
+
+    Promise.all([backPlatePromise, frontPlatePromise]).then(([back_plate, front_plate]) => {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let cartItem = {
+            plate_text: plateText,
+            plate_type: plateType,
+            plate_border: plateBorder,
+            plate_flag: plateFlag,
+            plate_style: plateStyle,
+            back_plate: back_plate,
+            front_plate: front_plate,
+        };
+
+        cart.push(cartItem);
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        alert("Added to cart successfully!");
+        updateCartUI(); // Update the cart UI after adding
+    });
+});
+
+// Function to Display Cart Items
+function updateCartUI() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cartContainer = document.getElementById("cartItems");
+
+    if (!cartContainer) return; // Ensure cart page exists
+
+    cartContainer.innerHTML = ""; // Clear previous items
+
+    cart.forEach((item, index) => {
+        let cartItem = document.createElement("div");
+        cartItem.className = "cart-item";
+        cartItem.innerHTML = `
+            <div>
+                <strong>Plate Text:</strong> ${item.plate_text}<br>
+                <strong>Type:</strong> ${item.plate_type}<br>
+                <strong>Border:</strong> ${item.plate_border}<br>
+                <strong>Flag:</strong> ${item.plate_flag}<br>
+                <strong>Style:</strong> ${item.plate_style || "Standard"}<br>
+                ${item.front_plate ? `<img src="${item.front_plate}" width="100">` : ""}
+                ${item.back_plate ? `<img src="${item.back_plate}" width="100">` : ""}
+                <button class="removeItem" data-index="${index}">Remove</button>
+            </div>
+        `;
+        cartContainer.appendChild(cartItem);
+    });
+
+    // Remove Item Event Listener
+    document.querySelectorAll(".removeItem").forEach(button => {
+        button.addEventListener("click", function () {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(this.dataset.index, 1); // Remove item from cart array
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartUI(); // Refresh UI
+        });
+    });
+}
+
+// Ensure cart updates when the page loads
+document.addEventListener("DOMContentLoaded", updateCartUI);
+
+
+
+
+
+document.getElementById("plate_flag").addEventListener("change", function () {
+        const selectedFlag = this.value;
+        const flagImages = {
+            eu: "/flags/eu-flag.png",
+            gb: "/flags/gb-flag.png",
+            uk: "/flags/uk-flag.png",
+            none: ""
+        };
+
+        const frontFlag = document.getElementById("front_flag");
+        const backFlag = document.getElementById("back_flag");
+
+        if (selectedFlag !== "none") {
+            frontFlag.innerHTML = `<img src="${flagImages[selectedFlag]}" class="flag-image">`;
+            backFlag.innerHTML = `<img src="${flagImages[selectedFlag]}" class="flag-image">`;
+               // Increase size dynamically
+        const flagImgs = document.querySelectorAll(".flag-image");
+        flagImgs.forEach(img => {
+            img.style.width = "100%";  // Adjust width
+            img.style.height = "auto";  // Maintain aspect ratio
+            img.style.maxHeight = "100%";
+        });
+        } else {
+            frontFlag.innerHTML = "";
+            backFlag.innerHTML = "";
+        }
+    });
+
+
 function updatePreview() {
     let plateText = $('#plate_text').val().toUpperCase();
     let bottomText = $('#bottom_line').val();
