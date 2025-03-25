@@ -33,3 +33,4 @@ Auth::routes();
 
 Route::view('about','about');
 Route::view('contact','contact');
+Route::view('gallery','gallery');

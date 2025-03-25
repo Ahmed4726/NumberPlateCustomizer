@@ -166,16 +166,20 @@
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src='images/michelle-spollen-dC2FsjoXsPQ-unsplash.jpg' class="d-block w-100" alt="...">
+      <img src='images/banner1.jpg' class="d-block" alt="..." height="500px" width="100%">
     </div>
     <div class="carousel-item">
-      <img src='images/michelle-spollen-dC2FsjoXsPQ-unsplash.jpg' class="d-block w-100" alt="...">
+      <img src='images/banner2.jpg' class="d-block" alt="..." height="500px" width="100%">
     </div>
     <div class="carousel-item">
-      <img src='images/michelle-spollen-dC2FsjoXsPQ-unsplash.jpg' class="d-block w-100" alt="...">
+      <img src='images/banner3.jpg' class="d-block" alt="..." height="500px" width="100%">
+    </div>
+    <div class="carousel-item">
+      <img src='images/banner4.jpg' class="d-block" alt="..." height="500px" width="100%">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
