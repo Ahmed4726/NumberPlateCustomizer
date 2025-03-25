@@ -3,57 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use App\Models\Order;
+use Illuminate\Support\Facades\Http;
 
 class PayPalController extends Controller
 {
-    public function createPayment(Request $request)
+    public function createOrder(Request $request)
     {
-        $paypal = new PayPalClient;
+        $totalAmount = 10;
 
-        $paypal->setApiCredentials(config('paypal'));
-        $paypal->getAccessToken();
-
-        $orderData = [
-            "intent" => "CAPTURE",
-            "purchase_units" => [
-                [
-                    "amount" => [
-                        "currency_code" => "GBP",
-                        "value" => $request->amount // Replace with the actual total price
+        $response = Http::withBasicAuth(env('PAYPAL_CLIENT_ID'), env('PAYPAL_SECRET'))
+            ->post('https://api-m.sandbox.paypal.com/v2/checkout/orders', [
+                'intent' => 'CAPTURE',
+                'purchase_units' => [
+                    [
+                        'amount' => [
+                            'currency_code' => 'GBP',
+                            'value' => $totalAmount
+                        ]
                     ]
                 ]
-            ],
-            "application_context" => [
-                "return_url" => route('paypal.success'),
-                "cancel_url" => route('paypal.cancel'),
-            ]
-        ];
-
-
-        $order = $paypal->createOrder($orderData);
-
-        return response()->json($order);
+            ]);
+            // dd($response);
+        return response()->json($response->json());
     }
 
-    public function successPayment(Request $request)
+    public function captureOrder(Request $request)
     {
-        $paypal = new PayPalClient;
-        $paypal->setApiCredentials(config('paypal'));
-        $paypal->getAccessToken();
+        // dd($request);
+        $orderID = $request->query('token');
 
-        $response = $paypal->capturePaymentOrder($request->token);
+        $response = Http::withBasicAuth(env('PAYPAL_CLIENT_ID'), env('PAYPAL_SECRET'))
+            ->post("https://api-m.sandbox.paypal.com/v2/checkout/orders/{$orderID}/capture");
 
-        if ($response['status'] == 'COMPLETED') {
-            // Update order status in database
-            return redirect()->route('checkout.success')->with('success', 'Payment successful!');
-        }
-
-        return redirect()->route('checkout.cancel')->with('error', 'Payment failed.');
-    }
-
-    public function cancelPayment()
-    {
-        return redirect()->route('cart.index')->with('error', 'Payment was cancelled.');
+        return response()->json($response->json());
     }
 }

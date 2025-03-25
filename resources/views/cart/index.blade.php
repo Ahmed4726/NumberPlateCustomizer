@@ -2,31 +2,17 @@
 
 @section('content')
 <style>
-         .border {
-            position: relative;
-            border: none;
-            outline: 1px solid black;
-            outline-offset: -3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* .border::after {
-            content: attr(data-bottom-text);
-            position: absolute;
-            bottom: 0px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 5px;
-            font-family: "Charles Wright";
-            color: black;
-            background: inherit;
-            padding: 2px 6px;
-            border-radius: 4px;
-        } */
-
+    .border {
+        position: relative;
+        border: none;
+        outline: 1px solid black;
+        outline-offset: -3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
+
 <div class="container mt-5">
     <h2>Your Cart</h2>
     <table class="table">
@@ -42,78 +28,59 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-            @php $total = 0; @endphp
-            @foreach ($cartItems as $item)
-                @php $total += $item->price; @endphp
-                <tr>
-                    <td>
-                        <img src="{{ $item->rear_image }}" width="100"
-                             class="{{ $item->plate_border == 'border' ? 'border' : '' }}">
-
-                        <img src="{{ $item->front_image }}" width="100"
-                             class="{{ $item->plate_border == 'border' ? 'border' : '' }}">
-                    </td>
-                    <td>{{ $item->plate_text }}</td>
-                    <td>{{ ucfirst($item->plate_type) }}</td>
-                    <td>{{ ucfirst($item->plate_border) }}</td>
-                    <td>{{ ucfirst($item->plate_flag) }}</td>
-                    <td>{{ ucfirst($item->plate_style) }}</td>
-                    <td>£{{ number_format($item->price, 2) }}</td>
-                    <td>
-                        <form action="{{ route('cart.destroy', $item->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+        <tbody id="cart-body">
+            <!-- Cart items will be inserted here dynamically -->
         </tbody>
     </table>
 
     <!-- Display total price -->
-    <div class="">
-        <h4 class="text-left">Total: <strong>£{{ number_format($total, 2) }}</strong></h4>
+    <div>
+        <h4 class="text-left">Total: <strong>£<span id="total-price">0.00</span></strong></h4>
     </div>
 
-    <!-- PayPal Button -->
-    <div class="text-center">
-    <div id="paypal-button-container"  class="mt-3"></div>
-
-</div>
+    <a href="{{ route('checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
 </div>
 
-<!-- PayPal Script -->
-<script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID') }}&currency=GBP"></script>
 <script>
-paypal.Buttons({
-    createOrder: function(data, actions) {
-        return fetch("{{ route('paypal.create') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({
-                amount: {{ $total }} // Pass the total amount to PayPal
-            })
-        })
-        .then(response => response.json())
-        .then(order => order.id);
-    },
-    onApprove: function(data, actions) {
-        return fetch("{{ route('paypal.success') }}?token=" + data.orderID)
-        .then(response => response.json())
-        .then(details => {
-            alert("Payment completed successfully!");
-            window.location.href = "{{ route('paypal.success') }}";
-        });
-    },
-    onCancel: function(data) {
-        window.location.href = "{{ route('paypal.cancel') }}";
-    }
-}).render('#paypal-button-container');
+    function loadCart() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cartBody = document.getElementById("cart-body");
+        let totalPrice = 0;
+        cartBody.innerHTML = ""; // Clear the table before inserting items
 
+        cart.forEach((item, index) => {
+            let row = `
+                <tr>
+                    <td>
+                        ${item.back_plate ? `<img src="${item.back_plate}" width="100" class="${item.plate_border === 'border' ? 'border' : ''}">` : ''}
+                        ${item.front_plate ? `<img src="${item.front_plate}" width="100" class="${item.plate_border === 'border' ? 'border' : ''}">` : ''}
+                    </td>
+                    <td>${item.plate_text}</td>
+                    <td>${item.plate_type.charAt(0).toUpperCase() + item.plate_type.slice(1)}</td>
+                    <td>${item.plate_border.charAt(0).toUpperCase() + item.plate_border.slice(1)}</td>
+                    <td>${item.plate_flag.charAt(0).toUpperCase() + item.plate_flag.slice(1)}</td>
+                    <td>${item.plate_style.charAt(0).toUpperCase() + item.plate_style.slice(1)}</td>
+                    <td>£${parseFloat(item.price).toFixed(2)}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="removeFromCart(${index})">Remove</button>
+                    </td>
+                </tr>
+            `;
+            cartBody.innerHTML += row;
+            totalPrice += parseFloat(item.price);
+        });
+
+        document.getElementById("total-price").innerText = totalPrice.toFixed(2);
+    }
+
+    function removeFromCart(index) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.splice(index, 1); // Remove the selected item
+        localStorage.setItem("cart", JSON.stringify(cart)); // Update local storage
+        loadCart(); // Reload cart items
+    }
+
+    document.addEventListener("DOMContentLoaded", loadCart);
 </script>
+
 @endsection

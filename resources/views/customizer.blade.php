@@ -304,11 +304,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
-
 document.getElementById("addToCart").addEventListener("click", function (e) {
     e.preventDefault();
 
-    let plateText = document.getElementById("plate_text").value;
+    let plateText = document.getElementById("plate_text").value.trim();
     let plateType = document.getElementById("plate_type").value;
     let plateBorder = document.getElementById("plate_border").value;
     let plateFlag = document.getElementById("plate_flag").value;
@@ -318,38 +317,76 @@ document.getElementById("addToCart").addEventListener("click", function (e) {
     let backPlatePromise = Promise.resolve(null);
     let frontPlatePromise = Promise.resolve(null);
 
-    if (plateType == "rare" || plateType == "both") {
+    if (plateType === "rear" || plateType === "both") {
         backPlatePromise = html2canvas(document.getElementById("back_plate")).then(canvas => canvas.toDataURL("image/png"));
     }
 
-    if (plateType == "front" || plateType == "both") {
+    if (plateType === "front" || plateType === "both") {
         frontPlatePromise = html2canvas(document.getElementById("front_plate")).then(canvas => canvas.toDataURL("image/png"));
     }
 
     Promise.all([backPlatePromise, frontPlatePromise]).then(([back_plate, front_plate]) => {
-        fetch("{{ route('cart.store') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                plate_text: plateText,
-                plate_type: plateType,
-                plate_border: plateBorder,
-                plate_flag: plateFlag,
-                plate_style: plateStyle,
-                back_plate: back_plate,
-                front_plate: front_plate
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert("Added to cart successfully!");
-        })
-        .catch(error => console.error("Error:", error));
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let cartItem = {
+            plate_text: plateText,
+            plate_type: plateType,
+            plate_border: plateBorder,
+            plate_flag: plateFlag,
+            plate_style: plateStyle,
+            back_plate: back_plate,
+            front_plate: front_plate,
+        };
+
+        cart.push(cartItem);
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        alert("Added to cart successfully!");
+        updateCartUI(); // Update the cart UI after adding
     });
 });
+
+// Function to Display Cart Items
+function updateCartUI() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cartContainer = document.getElementById("cartItems");
+
+    if (!cartContainer) return; // Ensure cart page exists
+
+    cartContainer.innerHTML = ""; // Clear previous items
+
+    cart.forEach((item, index) => {
+        let cartItem = document.createElement("div");
+        cartItem.className = "cart-item";
+        cartItem.innerHTML = `
+            <div>
+                <strong>Plate Text:</strong> ${item.plate_text}<br>
+                <strong>Type:</strong> ${item.plate_type}<br>
+                <strong>Border:</strong> ${item.plate_border}<br>
+                <strong>Flag:</strong> ${item.plate_flag}<br>
+                <strong>Style:</strong> ${item.plate_style || "Standard"}<br>
+                ${item.front_plate ? `<img src="${item.front_plate}" width="100">` : ""}
+                ${item.back_plate ? `<img src="${item.back_plate}" width="100">` : ""}
+                <button class="removeItem" data-index="${index}">Remove</button>
+            </div>
+        `;
+        cartContainer.appendChild(cartItem);
+    });
+
+    // Remove Item Event Listener
+    document.querySelectorAll(".removeItem").forEach(button => {
+        button.addEventListener("click", function () {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(this.dataset.index, 1); // Remove item from cart array
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartUI(); // Refresh UI
+        });
+    });
+}
+
+// Ensure cart updates when the page loads
+document.addEventListener("DOMContentLoaded", updateCartUI);
+
 
 
 
