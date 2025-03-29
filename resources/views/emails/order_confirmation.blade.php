@@ -87,13 +87,14 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="text-center">
         <p class="total">Total Amount: £{{ number_format($order->total_amount, 2) }}</p>
-
+    </div>
         <p>We will process your order and keep you updated. If you have any questions, feel free to contact us.</p>
 
         <div class="footer">
             <p>Thank you for choosing us! 🚗💨</p>
-            <p>&copy; {{ date('Y') }} Your Company Name</p>
+            <p>&copy; {{ date('Y') }} LA Bonita</p>
         </div>
     </div>
 </body>

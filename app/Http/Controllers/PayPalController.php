@@ -10,7 +10,7 @@ class PayPalController extends Controller
 {
     public function createOrder(Request $request)
     {
-        $totalAmount = 10;
+        $totalAmount = $request->amount;
 
         $response = Http::withBasicAuth(env('PAYPAL_CLIENT_ID'), env('PAYPAL_SECRET'))
             ->post('https://api-m.sandbox.paypal.com/v2/checkout/orders', [
@@ -30,7 +30,6 @@ class PayPalController extends Controller
 
     public function captureOrder(Request $request)
     {
-        // dd($request);
         $orderID = $request->query('token');
 
         $response = Http::withBasicAuth(env('PAYPAL_CLIENT_ID'), env('PAYPAL_SECRET'))

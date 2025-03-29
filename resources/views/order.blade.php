@@ -35,95 +35,104 @@
       </tr>
     </thead>
     <tbody id="orderTableBody">
-      <!-- Orders will be dynamically loaded here -->
+      @foreach($orders as $order)
       <tr>
-        <td>#12345</td>
-        <td>John Doe</td>
-        <td>2025-03-10</td>
-        <td>$120.00</td>
-        <td><span class="badge badge-warning">Pending</span></td>
+        <td>{{ $order->id }}</td>
+        <td>{{ $order->customer_name }}</td>
+        <td>{{ $order->created_at->format('Y-m-d') }}</td>
+        <td>${{ number_format($order->total_amount, 2) }}</td>
         <td>
-          <button class="btn btn-info btn-sm">View</button>
+          <span class="badge badge-{{ $order->status == 'pending' ? 'warning' : ($order->payment_status == 'Paid' ? 'success' : 'danger') }}">
+            {{ ucfirst($order->payment_status) }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-info btn-sm view-order" data-order="{{ $order }}">View</button>
           <button class="btn btn-success btn-sm">Complete</button>
           <button class="btn btn-danger btn-sm">Cancel</button>
         </td>
       </tr>
-      <!-- More rows will go here... -->
+      @endforeach
     </tbody>
   </table>
 
   <!-- Pagination -->
   <nav>
-    <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
+    {{ $orders->links() }}
   </nav>
 </div>
 
+<!-- Order Details Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Order Details</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Customer Name:</strong> <span id="modalCustomerName"></span></p>
+        <p><strong>Order Date:</strong> <span id="modalOrderDate"></span></p>
+        <p><strong>Total Amount:</strong> $<span id="modalOrderTotal"></span></p>
+        <p><strong>Status:</strong> <span id="modalOrderStatus"></span></p>
+        <h5>Items</h5>
+        <div id="orderItems"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-  // Get references to the filter inputs
-  const searchInput = document.getElementById('orderSearch');
-  const statusFilter = document.getElementById('orderStatusFilter');
-  const orderTableBody = document.getElementById('orderTableBody');
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".view-order").forEach(button => {
+      button.addEventListener("click", function () {
+        const order = JSON.parse(this.getAttribute("data-order"));
 
-  // Sample data (this would come from your server in a real scenario)
-  const orders = [
-    { orderId: '#12345', customer: 'John Doe', date: '2025-03-10', total: 120.00, status: 'pending' },
-    { orderId: '#12346', customer: 'Jane Smith', date: '2025-03-11', total: 250.00, status: 'completed' },
-    { orderId: '#12347', customer: 'Alice Brown', date: '2025-03-12', total: 75.00, status: 'canceled' },
-    // More orders...
-  ];
+        document.getElementById("modalCustomerName").textContent = order.full_name;
+        document.getElementById("modalOrderDate").textContent = order.created_at;
+        document.getElementById("modalOrderTotal").textContent = order.total_amount;
+        document.getElementById("modalOrderStatus").textContent = order.order_status;
 
-  // Function to render orders in the table
-  function renderOrders(filteredOrders) {
-    orderTableBody.innerHTML = ''; // Clear existing rows
+        let orderItemsHtml = '';
+        const orderDetails = JSON.parse(order.order_details);
+        orderDetails.forEach(item => {
+    if (item.front_plate !== 'null' && item.back_plate !== 'null') {
+        orderItemsHtml += `
+            <div class="border p-2 mb-2">
+                <p><strong>Price:</strong> $${item.price}</p>
+                <p><strong>Type:</strong> Both</p>
+                <img src="${item.front_plate}" class="img-fluid" style="max-width: 100px;" />
+                <img src="${item.back_plate}" class="img-fluid" style="max-width: 100px;" />
+            </div>
+        `;
+    } else if (item.front_plate !== 'null') {
+        orderItemsHtml += `
+            <div class="border p-2 mb-2">
+                <p><strong>Price:</strong> $${item.price}</p>
+                <p><strong>Type:</strong> Front</p>
+                <img src="${item.front_plate}" class="img-fluid" style="max-width: 100px;" />
+            </div>
+        `;
+    } else if (item.back_plate !== 'null') {
+        orderItemsHtml += `
+            <div class="border p-2 mb-2">
+                <p><strong>Price:</strong> $${item.price}</p>
+                <p><strong>Type:</strong> Rear</p>
+                <img src="${item.back_plate}" class="img-fluid" style="max-width: 100px;" />
+            </div>
+        `;
+    }
+});
 
-    filteredOrders.forEach(order => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${order.orderId}</td>
-        <td>${order.customer}</td>
-        <td>${order.date}</td>
-        <td>$${order.total.toFixed(2)}</td>
-        <td><span class="badge badge-${order.status === 'pending' ? 'warning' : order.status === 'completed' ? 'success' : 'danger'}">${order.status}</span></td>
-        <td>
-          <button class="btn btn-info btn-sm">View</button>
-          <button class="btn btn-success btn-sm">Complete</button>
-          <button class="btn btn-danger btn-sm">Cancel</button>
-        </td>
-      `;
-      orderTableBody.appendChild(row);
+
+        document.getElementById("orderItems").innerHTML = orderItemsHtml;
+        $("#orderModal").modal("show");
+      });
     });
-  }
-
-  // Function to filter orders
-  function filterOrders() {
-    const searchText = searchInput.value.toLowerCase();
-    const statusText = statusFilter.value.toLowerCase();
-
-    const filteredOrders = orders.filter(order => {
-      const matchesSearch = order.customer.toLowerCase().includes(searchText) || order.orderId.toLowerCase().includes(searchText);
-      const matchesStatus = statusText ? order.status.toLowerCase() === statusText : true;
-      return matchesSearch && matchesStatus;
-    });
-
-    renderOrders(filteredOrders);
-  }
-
-  // Add event listeners to trigger filter
-  searchInput.addEventListener('input', filterOrders);
-  statusFilter.addEventListener('change', filterOrders);
-
-  // Initial render
-  renderOrders(orders);
+  });
 </script>
 
 @endsection

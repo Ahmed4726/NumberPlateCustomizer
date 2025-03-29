@@ -36,17 +36,18 @@
             margin: -6px;
             font-size: 100px;
             font-weight: bold;
-            text-align: center;
-            width: 100%;
-            max-width: 100%;
+            text-align: right;
+            width: 90%;
+            max-width: 95%;
             position: relative;
-            border-radius: 15px;
+            border-radius: 9px;
             font-family: 'Charles Wright', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 125px;
+            line-height: 115px;
         }
+
 
 /* Medium Devices (tablets, 768px and up) */
 @media (max-width: 1024px) {
@@ -74,16 +75,10 @@
 
 /* Flag Container (Left Side) */
 .flag-container {
-    height: 50%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    margin-top: 30px;
-    margin-left: 10px;
+    left: -30px;
+
 }
 
 
@@ -110,7 +105,7 @@
 
 /* Flag Image */
 .flag-image {
-    /* max-width: 100%; */
+    max-width: 107px;
     height: auto;
 }
 
@@ -129,7 +124,7 @@
             position: relative;
             border: none;
             outline: 3px solid black;
-            outline-offset: -12px;
+            outline-offset: -7px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -235,11 +230,11 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="text-center mb-3 mt-5">
-                <input type="text" id="plate_text" class="plate-input" placeholder="ENTER REG" maxlength="10">
+                <input type="text" id="plate_text" class="plate-input" placeholder="ENTER REG" maxlength="8">
             </div>
 
             <div class="row">
@@ -274,29 +269,34 @@
             <div class="text-center mt-3">
                 <label class="form-label">CHOOSE TEXT STYLE:</label>
                 <div class="btn-group form-control" role="group">
-                    <button type="button" class="btn btn-outline-dark btn-style btn-selected" data-style="normal">Normal</button>
+                    <button type="button" class="btn btn-outline-dark btn-style btn-selected" data-style="printed">Normal</button>
                     <button type="button" class="btn btn-outline-dark btn-style" data-style="4D">4D</button>
                     <button type="button" class="btn btn-outline-dark btn-style" data-style="3D">3D</button>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-7 mt-4">
             <div class="" style="padding-left: 37px; padding-right: 40px;">
                 <div class="plate-preview mt-4">
                     <div class="plate front" id="front_plate">
                         <div class="flag-container" id="front_flag"></div>
-                        <span class="plate-text">YOUR REG</span>
+                        <span id="plate-text-flag" class="plate-text">YOUR REG</span>
                         <div class="bottom-line" id="front_bottom_line"></div>
                     </div>
                 </div>
                 <div class="plate-preview mt-4">
                     <div class="plate back" id="back_plate">
                         <div class="flag-container" id="back_flag"></div>
-                        <span class="plate-text ">YOUR REG</span>
+                        <span id="plate-text-flag" class="plate-text ">YOUR REG</span>
                         <div class="bottom-line" id="back_bottom_line"></div>
                     </div>
                 </div>
+                <div class="mt-3">
+                    <h4>&nbsp;&nbsp;&nbsp; Total Price: <span id="total_price">£0.00</span></h4>
+                    <input type="hidden" id="price_hidden" name="price_hidden">
+                </div>
+
                 <a href="#" class="btn btn-primary mt-4 mx-4" id="addToCart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
             </div>
         </div>
@@ -317,6 +317,7 @@ document.getElementById("addToCart").addEventListener("click", function (e) {
     let plateFlag = document.getElementById("plate_flag").value;
     let plateStyleElement = document.querySelector(".btn-style.btn-selected");
     let plateStyle = plateStyleElement ? plateStyleElement.dataset.style : null;
+    let platePrice = parseFloat(document.getElementById("price_hidden").value); // Get price from hidden field
 
     let backPlatePromise = Promise.resolve(null);
     let frontPlatePromise = Promise.resolve(null);
@@ -338,14 +339,26 @@ document.getElementById("addToCart").addEventListener("click", function (e) {
             plate_border: plateBorder,
             plate_flag: plateFlag,
             plate_style: plateStyle,
+            price: platePrice, // Store price
             back_plate: back_plate,
             front_plate: front_plate,
         };
 
         cart.push(cartItem);
         localStorage.setItem("cart", JSON.stringify(cart));
+        Swal.fire({
+            title: "Success!",
+            text: "Added to cart successfully!",
+            icon: "success",
+            showCancelButton: true,
+            confirmButtonText: "Go to Cart",
+            cancelButtonText: "OK"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/cart"; // Redirect to cart page
+            }
+        });
 
-        alert("Added to cart successfully!");
         updateCartUI(); // Update the cart UI after adding
     });
 });
@@ -369,6 +382,7 @@ function updateCartUI() {
                 <strong>Border:</strong> ${item.plate_border}<br>
                 <strong>Flag:</strong> ${item.plate_flag}<br>
                 <strong>Style:</strong> ${item.plate_style || "Standard"}<br>
+                <strong>Price:</strong> £${item.price.toFixed(2)}<br>
                 ${item.front_plate ? `<img src="${item.front_plate}" width="100">` : ""}
                 ${item.back_plate ? `<img src="${item.back_plate}" width="100">` : ""}
                 <button class="removeItem" data-index="${index}">Remove</button>
@@ -395,33 +409,38 @@ document.addEventListener("DOMContentLoaded", updateCartUI);
 
 
 
+
 document.getElementById("plate_flag").addEventListener("change", function () {
-        const selectedFlag = this.value;
-        const flagImages = {
-            eu: "/flags/eu-flag.png",
-            gb: "/flags/gb-flag.png",
-            uk: "/flags/uk-flag.png",
-            none: ""
-        };
+    const selectedFlag = this.value;
 
-        const frontFlag = document.getElementById("front_flag");
-        const backFlag = document.getElementById("back_flag");
+    if (selectedFlag !== "none") {
+        fetch(`/get-flags?flag_name=${selectedFlag}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.front_flag && data.back_flag) {
+                    document.getElementById("front_flag").innerHTML =
+                        `<img src="${data.front_flag}" class="flag-image">`;
+                    document.getElementById("back_flag").innerHTML =
+                        `<img src="${data.back_flag}" class="flag-image">`;
 
-        if (selectedFlag !== "none") {
-            frontFlag.innerHTML = `<img src="${flagImages[selectedFlag]}" class="flag-image">`;
-            backFlag.innerHTML = `<img src="${flagImages[selectedFlag]}" class="flag-image">`;
-               // Increase size dynamically
-        const flagImgs = document.querySelectorAll(".flag-image");
-        flagImgs.forEach(img => {
-            img.style.width = "100%";  // Adjust width
-            img.style.height = "auto";  // Maintain aspect ratio
-            img.style.maxHeight = "100%";
-        });
-        } else {
-            frontFlag.innerHTML = "";
-            backFlag.innerHTML = "";
-        }
-    });
+                    // Adjust size dynamically
+                    document.querySelectorAll(".flag-image").forEach(img => {
+                        img.style.width = "100%";
+                        img.style.height = "auto";
+                        img.style.maxHeight = "100%";
+                    });
+                } else {
+                    console.error("Flag data missing");
+                }
+            })
+            .catch(error => console.error("Error fetching flags:", error));
+    } else {
+
+        document.getElementById("front_flag").innerHTML = "";
+        document.getElementById("back_flag").innerHTML = "";
+    }
+});
+
 
 
 function updatePreview() {
@@ -474,6 +493,40 @@ $('.btn-style').on('click', function() {
 $('#save').on('click', function() {
     alert("Customization saved!");
 });
+function updatePrice() {
+    const plateType = document.getElementById("plate_type").value;
+    const border = document.getElementById("plate_border").value;
+    const flag = document.getElementById("plate_flag").value;
+    const selectedStyle = document.querySelector(".btn-style.btn-selected").getAttribute("data-style");
+
+    fetch(`/plate-prices?plate_type=${plateType}&border=${border}&flag=${flag}&style=${selectedStyle}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.total_price) {
+                document.getElementById("total_price").innerText = `£${data.total_price.toFixed(2)}`;
+                document.getElementById("price_hidden").value = data.total_price;
+            }
+        })
+        .catch(error => console.error("Error fetching prices:", error));
+}
+
+// Listen for changes in all options
+document.getElementById("plate_type").addEventListener("change", updatePrice);
+document.getElementById("plate_border").addEventListener("change", updatePrice);
+document.getElementById("plate_flag").addEventListener("change", updatePrice);
+
+// Listen for text style button clicks
+document.querySelectorAll(".btn-style").forEach(button => {
+    button.addEventListener("click", function () {
+        document.querySelectorAll(".btn-style").forEach(btn => btn.classList.remove("btn-selected"));
+        this.classList.add("btn-selected");
+        updatePrice();
+    });
+});
+
+// Call the function on page load to set the default price
+updatePrice();
+
 
 updatePreview();
 </script>

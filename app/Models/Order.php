@@ -17,5 +17,6 @@ class Order extends Model
         'order_details',   // JSON field containing plate details
         'payment_status',  // Payment status (e.g., 'pending', 'completed')
         'transaction_id',  // PayPal transaction ID
+        'order_status',
     ];
 }

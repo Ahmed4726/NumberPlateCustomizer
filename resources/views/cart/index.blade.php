@@ -33,15 +33,37 @@
         </tbody>
     </table>
 
+    <!-- Shipping Selection -->
+    <div class="mb-3">
+        <label for="shipping-method"><strong>Select Shipping:</strong></label>
+        <select required id="shipping-method" class="form-control" onchange="updateTotal()">
+            <option value="0.00">Choose Shipping Option</option>
+            <option value="6.99">Standard Shipping (£6.99)</option>
+            <option value="9.99">Express Shipping (£9.99)</option>
+        </select>
+    </div>
+
     <!-- Display total price -->
     <div>
         <h4 class="text-left">Total: <strong>£<span id="total-price">0.00</span></strong></h4>
     </div>
 
-    <a href="{{ route('checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+    <form id="checkout-form" action="{{ route('checkout.process') }}" method="POST">
+        @csrf
+        <input type="hidden" name="cart_data" id="cart-data">
+        <input type="hidden" name="shipping_cost" id="shipping-cost">
+        <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+    </form>
 </div>
 
 <script>
+    document.getElementById("checkout-form").addEventListener("submit", function (e) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let shippingCost = document.getElementById("shipping-method") ? parseFloat(document.getElementById("shipping-method").value) : 6.99; // Default to standard shipping
+
+        document.getElementById("cart-data").value = JSON.stringify(cart);
+        document.getElementById("shipping-cost").value = shippingCost;
+    });
     function loadCart() {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         let cartBody = document.getElementById("cart-body");
@@ -62,7 +84,12 @@
                     <td>${item.plate_style.charAt(0).toUpperCase() + item.plate_style.slice(1)}</td>
                     <td>£${parseFloat(item.price).toFixed(2)}</td>
                     <td>
-                        <button class="btn btn-danger btn-sm" onclick="removeFromCart(${index})">Remove</button>
+                        <button class="btn btn-danger btn-sm" onclick="removeFromCart(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="duplicateCartItem(${index})">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </td>
                 </tr>
             `;
@@ -71,6 +98,7 @@
         });
 
         document.getElementById("total-price").innerText = totalPrice.toFixed(2);
+        updateTotal(); // Update total with shipping cost
     }
 
     function removeFromCart(index) {
@@ -80,7 +108,27 @@
         loadCart(); // Reload cart items
     }
 
+    function duplicateCartItem(index) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let duplicatedItem = { ...cart[index] }; // Clone the item
+        cart.push(duplicatedItem); // Add duplicate
+        localStorage.setItem("cart", JSON.stringify(cart));
+        loadCart(); // Refresh UI
+    }
+
+    function updateTotal() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let productTotal = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
+        let shippingCost = parseFloat(document.getElementById("shipping-method").value);
+        let total = productTotal + shippingCost;
+
+        document.getElementById("total-price").innerText = total.toFixed(2);
+    }
+
     document.addEventListener("DOMContentLoaded", loadCart);
 </script>
+
+<!-- Include FontAwesome for Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 @endsection
