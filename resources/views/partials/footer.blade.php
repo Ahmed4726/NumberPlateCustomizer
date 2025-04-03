@@ -11,58 +11,58 @@
     <!-- Right -->
     <div>
       <!-- Facebook -->
-      <a
+      {{-- <a
         data-mdb-ripple-init
         class="btn btn-link btn-floating btn-lg text-body m-1"
         href="#!"
         role="button"
         data-mdb-ripple-color="dark"
-        ><i class="fab fa-facebook-f"></i></a>
+        ><i class="fab fa-facebook-f"></i></a> --}}
 
       <!-- Twitter -->
-      <a
+      {{-- <a
         data-mdb-ripple-init
         class="btn btn-link btn-floating btn-lg text-body m-1"
         href="#!"
         role="button"
         data-mdb-ripple-color="dark"
-        ><i class="fab fa-twitter"></i></a>
+        ><i class="fab fa-twitter"></i></a> --}}
 
       <!-- Google -->
-      <a
+      {{-- <a
         data-mdb-ripple-init
         class="btn btn-link btn-floating btn-lg text-body m-1"
         href="#!"
         role="button"
         data-mdb-ripple-color="dark"
-        ><i class="fab fa-google"></i></a>
+        ><i class="fab fa-google"></i></a> --}}
 
       <!-- Instagram -->
       <a
         data-mdb-ripple-init
         class="btn btn-link btn-floating btn-lg text-body m-1"
-        href="#!"
+        href="https://www.instagram.com/labonitaltd?igsh=cms0eGd1eHdjdDB2&utm_source=qr"
         role="button"
         data-mdb-ripple-color="dark"
         ><i class="fab fa-instagram"></i></a>
 
       <!-- Linkedin -->
-      <a
+      {{-- <a
         data-mdb-ripple-init
         class="btn btn-link btn-floating btn-lg text-body m-1"
         href="#!"
         role="button"
         data-mdb-ripple-color="dark"
-        ><i class="fab fa-linkedin"></i></a>
+        ><i class="fab fa-linkedin"></i></a> --}}
 
       <!-- Github -->
       <a
         data-mdb-ripple-init
         class="btn btn-link btn-floating btn-lg text-body m-1"
-        href="#!"
+        href="https://www.tiktok.com/@labonitaltd?_t=ZN-8v5ovgWMebm&_r=1"
         role="button"
         data-mdb-ripple-color="dark"
-        ><i class="fab fa-github"></i></a>
+        ><i class="fab fa-tiktok"></i></a>
     </div>
     <!-- Right -->
   </section>
@@ -72,45 +72,46 @@
   <section class="pt-5" style="background-color: rgba(0, 0, 0, 0.05);">
     <div class="container-fluid text-center text-md-start mt-5" >
       <!-- Grid row -->
-      <div class="row mt-3" >
+      <div class="row mt-3">
         <!-- Grid column -->
-        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-          <h6 class="text-uppercase fw-bold mb-4">
-            <i class="fas fa-gem me-3"></i>Company name
-          </h6>
-          <p>
-            Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          </p>
+        <div class="col-md-4 col-lg-4 col-xl-3 mx-auto" style="margin-top: -40px;">
+            <img src="images/logoss.png" alt="Description of the image" class="img-fluid">
+            <p>Looking for the best Plates on the market then you have come to the right place...
+
+                Labonita, a leading plate maker ..offering you the style and flexibility you want, at the right price.</p>
         </div>
+
         <!-- Grid column -->
 
         <!-- Grid column -->
-        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+        {{-- <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
           <h6 class="text-uppercase fw-bold mb-4">Products</h6>
           <p><a href="#!" class="text-reset">Angular</a></p>
           <p><a href="#!" class="text-reset">React</a></p>
           <p><a href="#!" class="text-reset">Vue</a></p>
           <p><a href="#!" class="text-reset">Laravel</a></p>
-        </div>
+        </div> --}}
         <!-- Grid column -->
 
         <!-- Grid column -->
-        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+        <div class="col-md-4 col-lg-2 col-xl-2 mx-auto mb-4">
           <h6 class="text-uppercase fw-bold mb-4">Useful links</h6>
-          <p><a href="#!" class="text-reset">Pricing</a></p>
-          <p><a href="#!" class="text-reset">Settings</a></p>
-          <p><a href="#!" class="text-reset">Orders</a></p>
-          <p><a href="#!" class="text-reset">Help</a></p>
+          <p><a href="/cart" class="text-reset">Cart</a></p>
+          <p><a href="/contact" class="text-reset">Contact Us</a></p>
+          <p><a href="/about" class="text-reset">About Us</a></p>
+          <p><a href="#" class="text-reset" data-bs-toggle="modal" data-bs-target="#trackOrderModal">
+            Track Your Order
+          </a></p>
         </div>
         <!-- Grid column -->
 
         <!-- Grid column -->
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
           <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-          <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
-          <p><i class="fas fa-envelope me-3"></i> info@example.com</p>
-          <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-          <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+          <p><i class="fas fa-home me-3"></i>30 Ranelagh Road, Southall, UB1 1DQ</p>
+          <p><i class="fas fa-envelope me-3"></i>sales@labonitaltd.co.uk</p>
+          {{-- <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+          <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p> --}}
         </div>
         <!-- Grid column -->
       </div>
@@ -121,8 +122,14 @@
 
   <!-- Copyright -->
   <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-    © 2021 Copyright: <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-  </div>
+    © <span id="current-year"></span> Copyright: <a class="text-reset fw-bold" href="/">Labonita.com</a>
+</div>
+
+<script>
+    // Get the current year and set it in the span
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+
   <!-- Copyright -->
 </footer>
 <!-- Footer -->

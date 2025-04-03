@@ -37,7 +37,7 @@
     <div class="mb-3">
         <label for="shipping-method"><strong>Select Shipping:</strong></label>
         <select required id="shipping-method" class="form-control" onchange="updateTotal()">
-            <option value="0.00">Choose Shipping Option</option>
+            <option value="">Choose Shipping Option</option>
             <option value="6.99">Standard Shipping (£6.99)</option>
             <option value="9.99">Express Shipping (£9.99)</option>
         </select>
@@ -57,13 +57,23 @@
 </div>
 
 <script>
-    document.getElementById("checkout-form").addEventListener("submit", function (e) {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let shippingCost = document.getElementById("shipping-method") ? parseFloat(document.getElementById("shipping-method").value) : 6.99; // Default to standard shipping
+document.getElementById("checkout-form").addEventListener("submit", function (e) {
+    let shippingMethod = document.getElementById("shipping-method");
 
-        document.getElementById("cart-data").value = JSON.stringify(cart);
-        document.getElementById("shipping-cost").value = shippingCost;
-    });
+    if (!shippingMethod.value) {
+        swal.fire("Please select a shipping option before proceeding.");
+        shippingMethod.focus();
+        e.preventDefault(); // Stop form submission
+        return;
+    }
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let shippingCost = parseFloat(shippingMethod.value);
+
+    document.getElementById("cart-data").value = JSON.stringify(cart);
+    document.getElementById("shipping-cost").value = shippingCost;
+});
+
     function loadCart() {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         let cartBody = document.getElementById("cart-body");
@@ -120,6 +130,9 @@
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         let productTotal = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
         let shippingCost = parseFloat(document.getElementById("shipping-method").value);
+        if (isNaN(shippingCost)) {
+        shippingCost = 0.00;
+    }
         let total = productTotal + shippingCost;
 
         document.getElementById("total-price").innerText = total.toFixed(2);

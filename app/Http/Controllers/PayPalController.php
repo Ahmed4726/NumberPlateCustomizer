@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class PayPalController extends Controller
 {
@@ -17,24 +19,62 @@ class PayPalController extends Controller
                 'intent' => 'CAPTURE',
                 'purchase_units' => [
                     [
+                        'reference_id' => 'order-' . uniqid(), // Generate a unique order ID
                         'amount' => [
                             'currency_code' => 'GBP',
-                            'value' => $totalAmount
-                        ]
+                            'value' => $totalAmount,
+                        ],
                     ]
                 ]
             ]);
-            // dd($response);
-        return response()->json($response->json());
+
+        // Check if the response is valid and contains the necessary data
+        if ($response->successful()) {
+            $paypalOrderData = $response->json();
+            return response()->json(['id' => $paypalOrderData['id']]);
+        } else {
+            // Handle error, log the response, and return an error message
+            Log::error("PayPal Order Creation Failed: " . $response->body());
+            return response()->json(['error' => 'Unable to create order', 'details' => $response->json()], 400);
+        }
     }
+
+
 
     public function captureOrder(Request $request)
     {
         $orderID = $request->query('token');
+        $client = new Client();
 
-        $response = Http::withBasicAuth(env('PAYPAL_CLIENT_ID'), env('PAYPAL_SECRET'))
-            ->post("https://api-m.sandbox.paypal.com/v2/checkout/orders/{$orderID}/capture");
+        try {
+            $response = $client->post("https://api-m.sandbox.paypal.com/v2/checkout/orders/{$orderID}/capture", [
+                'auth' => [env('PAYPAL_CLIENT_ID'), env('PAYPAL_SECRET')], // Basic Auth
+                'headers' => [
+                    'Content-Type' => 'application/json', // Ensure proper content type
+                ]
+            ]);
 
-        return response()->json($response->json());
+            $responseData = json_decode($response->getBody(), true); // Decode the JSON response
+
+            // Log the successful response for debugging
+            Log::info("PayPal Capture Response: ", $responseData);
+
+            // Handle the response, capture the order and update the database
+            return response()->json($responseData);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $errorResponse = $e->getResponse();
+            $errorMessage = $errorResponse ? (string) $errorResponse->getBody() : 'Unknown error';
+
+            // Log the error details for debugging
+            Log::error("PayPal Order Capture Failed: " . $errorMessage);
+
+            // Return the error response in a JSON format
+            return response()->json([
+                'error' => 'Unable to capture order',
+                'details' => $errorMessage
+            ], 400);
+        }
     }
+
+
 }

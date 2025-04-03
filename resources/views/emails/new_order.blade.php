@@ -93,7 +93,7 @@
         <p>Please process this order as soon as possible.</p>
 
         <div class="footer">
-            <p>&copy; {{ date('Y') }} Your Company Name</p>
+            <p>&copy; {{ date('Y') }} LA Bonita LTD.</p>
         </div>
     </div>
 </body>

@@ -24,10 +24,11 @@ class CheckoutController extends Controller
     public function index()
     {
         $cartItems = session()->get('cart', []);
-        $shippingCost = session()->get('shipping', 6.99); // Default shipping cost
+        $shippingCost = session()->get('shipping', 0.00); // Default shipping cost
         $total = collect($cartItems)->sum('price') + $shippingCost;
+        $total_cost = collect($cartItems)->sum('price');
 
-        return view('checkout', compact('cartItems', 'total', 'shippingCost'));
+        return view('checkout', compact('cartItems', 'total', 'shippingCost','total_cost'));
     }
 
     public function store(Request $request)
@@ -50,10 +51,10 @@ class CheckoutController extends Controller
         session()->forget(['cart', 'shipping']); // Clear the cart and shipping info
 
         // Send Email
-        Mail::to($request->email)->send(new \App\Mail\OrderConfirmation($order));
-        Mail::to(env('ADMIN_EMAIL'))->send(new \App\Mail\NewOrderNotification($order));
+        // Mail::to($request->email)->send(new \App\Mail\OrderConfirmation($order));
+        // Mail::to(env('ADMIN_EMAIL'))->send(new \App\Mail\NewOrderNotification($order));
 
-        return redirect()->route('index')->with('success', 'Order placed successfully!');
+        return redirect()->route('index')->with('success', 'Order placed successfully!')->with('order-placed', true);
     }
 }
 

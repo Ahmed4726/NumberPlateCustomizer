@@ -4,60 +4,89 @@
 <div class="container mt-5">
     <h2>Checkout</h2>
 
-    <form id="checkout-form" method="POST" action="{{ route('checkout.store') }}">
-        @csrf
+    <div class="row">
+        <div class="col-md-8">
+            <form id="checkout-form" method="POST" action="{{ route('checkout.store') }}">
+                @csrf
 
-        <div class="mb-3">
-            <label for="full_name" class="form-label">Full Name</label>
-            <input type="text" class="form-control" id="full_name" name="full_name" required>
+                <div class="mb-3">
+                    <label for="full_name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Shipping Address</label>
+                    <textarea class="form-control" id="address" name="address" required></textarea>
+                </div>
+
+                <input type="hidden" id="order-total" value="{{ $total }}">
+                <input type="hidden" id="shipping-cost" value="{{ $shippingCost }}">
+
+                <div class="text-center">
+                    <div id="paypal-button-container"></div>
+                </div>
+            </form>
         </div>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+        <!-- Summary Card -->
+        <div class="col-md-4">
+            <div class="card p-3 shadow">
+                <h4 class="mb-3">Order Summary</h4>
+                <p><strong>Subtotal:</strong> £<span id="subtotal">{{ number_format($total_cost, 2) }}</span></p>
+                <p><strong>Shipping:</strong> £<span id="shipping-cost-display">{{ number_format($shippingCost, 2) }}</span></p>
+                <hr>
+                <h4><strong>Total: £<span id="total-price">{{ number_format($total, 2) }}</span></strong></h4>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label for="address" class="form-label">Shipping Address</label>
-            <textarea class="form-control" id="address" name="address" required></textarea>
-        </div>
-
-        <h4>Total: £{{ number_format($total, 2) }}</h4>
-
-        <input type="hidden" id="order-total" value="{{ $total }}">
-
-        <div class="text-center">
-            <div id="paypal-button-container"></div>
-        </div>
-    </form>
+    </div>
 </div>
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID') }}&currency=GBP"></script>
 <script>
-paypal.Buttons({
-    createOrder: function(data, actions) {
-        return fetch("{{ route('paypal.create') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({
-                amount: document.getElementById("order-total").value
+document.addEventListener("DOMContentLoaded", function () {
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            if (!validateForm()) return;
+
+            return fetch("{{ route('paypal.create') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    amount: document.getElementById("order-total").value
+                })
             })
-        })
-        .then(response => response.json())
-        .then(order => order.id);
-        // alert(response)
-    },
-    onApprove: function(data, actions) {
-        return fetch("{{ route('paypal.success') }}?token=" + data.orderID)
-        .then(response => response.json())
-        .then(details => {
-            document.getElementById('checkout-form').submit(); // Submit the checkout form
-        });
+            .then(response => response.json())
+            .then(order => order.id);
+        },
+        onApprove: function(data, actions) {
+            return fetch("{{ route('paypal.success') }}?token=" + data.orderID)
+            .then(response => response.json())
+            .then(details => {
+                document.getElementById('checkout-form').submit();
+            });
+        }
+    }).render('#paypal-button-container');
+});
+
+function validateForm() {
+    let fullName = document.getElementById("full_name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let address = document.getElementById("address").value.trim();
+
+    if (!fullName || !email || !address) {
+        swal.fire("Please fill in all required fields before proceeding.");
+        return false;
     }
-}).render('#paypal-button-container');
+    return true;
+}
 </script>
 
 @endsection

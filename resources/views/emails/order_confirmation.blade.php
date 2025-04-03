@@ -94,7 +94,7 @@
 
         <div class="footer">
             <p>Thank you for choosing us! 🚗💨</p>
-            <p>&copy; {{ date('Y') }} LA Bonita</p>
+            <p>&copy; {{ date('Y') }} LA Bonita LTD.</p>
         </div>
     </div>
 </body>

@@ -193,10 +193,17 @@
             font-size: 16px;
             font-weight: bold;
         }
+        .same-size {
+    width: 450px;         /* Set a fixed width */
+    height: auto;        /* Set a fixed height */
+    object-fit: contain;  /* Ensure images scale proportionally */
+}
 
         /* .plate.back {
         background-color: darkgoldenrod;
     } */
+
+
 
     </style>
 <body>
@@ -209,16 +216,24 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src='images/banner1.jpg' class="d-block" alt="..." height="500px" width="100%">
+        <a href="#customizer">
+            <img src="images/banner1.jpg" class="d-block" alt="..." height="500px" width="100%">
+        </a>
     </div>
     <div class="carousel-item">
-      <img src='images/banner2.jpg' class="d-block" alt="..." height="500px" width="100%">
+        <a href="#customizer">
+            <img src='images/banner2.jpg' class="d-block" alt="..." height="500px" width="100%">
+        </a>
     </div>
     <div class="carousel-item">
-      <img src='images/banner3.jpg' class="d-block" alt="..." height="500px" width="100%">
+        <a href="#customizer">
+            <img src='images/banner3.jpg' class="d-block" alt="..." height="500px" width="100%">
+        </a>
     </div>
     <div class="carousel-item">
-      <img src='images/banner4.jpg' class="d-block" alt="..." height="500px" width="100%">
+        <a href="#customizer">
+            <img src='images/banner4.jpg' class="d-block" alt="..." height="500px" width="100%">
+        </a>
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -230,9 +245,9 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-<div class="container-fluid mt-5">
-    <div class="row">
-        <div class="col-md-5">
+<div class="container-fluid" id="customizer">
+    <div class="row" style="margin-left: 30px;">
+        <div class="col-md-6">
             <div class="text-center mb-3 mt-5">
                 <input type="text" id="plate_text" class="plate-input" placeholder="ENTER REG" maxlength="8">
             </div>
@@ -276,8 +291,8 @@
             </div>
         </div>
 
-        <div class="col-md-7 mt-4">
-            <div class="" style="padding-left: 37px; padding-right: 40px;">
+        <div class="col-md-6 mt-4">
+            <div class="" style="">
                 <div class="plate-preview mt-4">
                     <div class="plate front" id="front_plate">
                         <div class="flag-container" id="front_flag"></div>
@@ -304,6 +319,153 @@
 </div>
 
 </div>
+<section class="testimonial-carousel container mt-5 border-top border-dark">
+    <h2 class="text-center mb-4 mt-3">What Our Clients Are Saying</h2>
+
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner row g-0">
+            <!-- First Item -->
+            <div class="carousel-item active col-md-4 card p-4">
+                <div class="carousel-item-content">
+                    <p class="quote">"Exceptional Service and Results!"</p>
+                    <p class="testimonial-text">"Working with this team has been a game changer for our business. Their expertise and commitment to quality have made a tangible difference in our operations. Highly recommend!"</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="author">— John D., CEO of Tech Solutions</p>
+                </div>
+            </div>
+            <!-- Second Item -->
+            <div class="carousel-item col-md-4 card p-4">
+                <div class="carousel-item-content">
+                    <p class="quote">"A Truly Personalized Experience"</p>
+                    <p class="testimonial-text">"From start to finish, the entire process was smooth and tailored to our needs. The team's dedication to understanding our goals made all the difference. We're seeing incredible results!"</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="author">— Sarah L., Marketing Director at Greenfield Co.</p>
+                </div>
+            </div>
+            <!-- Third Item -->
+            <div class="carousel-item col-md-4 card p-4">
+                <div class="carousel-item-content">
+                    <p class="quote">"Above and Beyond Expectations"</p>
+                    <p class="testimonial-text">"We were blown away by the attention to detail and the level of customer support. It’s rare to find a company that genuinely cares about your success like they do!"</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <p class="author">— Mark T., Founder of Eco Enterprises</p>
+                </div>
+            </div>
+            <!-- Fourth Item -->
+            <div class="carousel-item col-md-4 card p-4">
+                <div class="carousel-item-content">
+                    <p class="quote">"Great Experience!"</p>
+                    <p class="testimonial-text">"The team has been very professional. They understood our goals, and the final result exceeded expectations!"</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="author">— Lucy A., Project Manager at RedRock</p>
+                </div>
+            </div>
+            <!-- Fifth Item -->
+            <div class="carousel-item col-md-4 card p-4">
+                <div class="carousel-item-content">
+                    <p class="quote">"Top-Notch Quality!"</p>
+                    <p class="testimonial-text">"Absolutely incredible service! They really know their stuff, and our project turned out perfect."</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="author">— Brian K., Director at Visionary Innovations</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev btn-dark" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+<section class="services-section container mt-5 text-center">
+    <h2 class="text-center mb-4 border-bottom border-3 border-warning d-inline-block">HIGH QUALITY PLATES</h2>
+
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="service-box">
+                <img src="images/eee.png" alt="Project 1" class="img-fluid same-size">
+
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <div class="service-box">
+                <img src="images/3333w.PNG" alt="Project 1" class="img-fluid same-size">
+
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <div class="service-box">
+                <img src="images/4d.JPEG" alt="Project 1" class="img-fluid same-size">
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="portfolio-section container mt-5 text-center">
+    <h2 class="text-center mb-4 border-bottom border-3 border-warning d-inline-block">Our Recent Projects</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="portfolio-item">
+
+                <img src="images/333d.JPEG" alt="Project 1" class="img-fluid same-size">
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="portfolio-item">
+
+                <img src="images/4ddd.JPEG" alt="Project 1" class="img-fluid same-size">
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="portfolio-item">
+
+                <img src="images/3eee.JPEG" alt="Project 1" class="img-fluid same-size">
+
+            </div>
+        </div>
+    </div>
+</section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -406,6 +568,14 @@ function updateCartUI() {
 document.addEventListener("DOMContentLoaded", updateCartUI);
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Check if the order has been successfully placed
+    if (window.location.href.includes("order-placed")) {
+        // Clear localStorage when order is placed
+        localStorage.removeItem("cart"); // Adjust to your cart's key if needed
+        console.log("Cart has been cleared from localStorage.");
+    }
+});
 
 
 

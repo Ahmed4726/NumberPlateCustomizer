@@ -17,15 +17,21 @@
         <li class="nav-item">
           <a class="nav-link active" href="/">Home</a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link" href="#">Gallery</a>
-        </li>
+        </li> --}}
         <li class="nav-item">
           <a class="nav-link" href="/contact">Contact Us</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about">About Us</a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#trackOrderModal">
+              Track Your Order
+            </a>
+          </li>
         <li class="nav-item mx-2 mt-2 position-relative">
             <a href="{{ route('cart.index') }}" class="text-dark">
                 <i class="fas fa-shopping-cart"></i>
@@ -35,11 +41,6 @@
             </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#trackOrderModal">
-            Track Your Order
-          </a>
-        </li>
       </ul>
     </div>
   </div>

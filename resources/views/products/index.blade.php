@@ -5,7 +5,7 @@
   <h3>Product Management</h3>
 
   <!-- Button to trigger the "Add Product" modal -->
-  <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#addProductModal">Add New Product</button>
+  {{-- <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#addProductModal">Add New Product</button> --}}
 
   <!-- Product Table -->
   <table class="table table-striped">
@@ -22,15 +22,15 @@
       <!-- Products will be dynamically loaded here -->
       @foreach($products as $product)
       <tr>
-        <td>{{ $product->id }}</td>
+        <td>{{ $loop->iteration }}</td>
         <td>{{ $product->name }}</td>
         <td>{{ $product->description }}</td>
         <td>${{ $product->price }}</td>
         <td>
           <!-- Edit Button (opens the modal) -->
-          <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editProductModal" data-id="{{ $product->id }}" data-name="{{ $product->name }}" data-description="{{ $product->description }}" data-price="{{ $product->price }}">Edit</button>
+          <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editProductModal" data-id="{{ $product->id }}" data-name="{{ $product->name }}" data-description="{{ $product->description }}" data-price="{{ $product->price }}">Edit Price</button>
           <!-- Delete Button -->
-          <button class="btn btn-danger btn-sm" onclick="deleteProduct({{ $product->id }})">Delete</button>
+          {{-- <button class="btn btn-danger btn-sm" onclick="deleteProduct({{ $product->id }})">Delete</button> --}}
         </td>
       </tr>
       @endforeach
@@ -94,7 +94,7 @@
           </div>
           <div class="form-group">
             <label for="editProductDescription">Description</label>
-            <textarea class="form-control" id="editProductDescription" name="description" required readonly></textarea>
+            <textarea class="form-control" id="editProductDescription" name="description" required></textarea>
           </div>
           <div class="form-group">
             <label for="editProductPrice">Price</label>
