@@ -48,33 +48,39 @@ class PayPalController extends Controller
 
         try {
             $response = $client->post("https://api-m.sandbox.paypal.com/v2/checkout/orders/{$orderID}/capture", [
-                'auth' => [env('PAYPAL_CLIENT_ID'), env('PAYPAL_SECRET')], // Basic Auth
+                'auth' => [env('PAYPAL_CLIENT_ID'), env('PAYPAL_SECRET')],
                 'headers' => [
-                    'Content-Type' => 'application/json', // Ensure proper content type
+                    'Content-Type' => 'application/json',
                 ]
             ]);
 
-            $responseData = json_decode($response->getBody(), true); // Decode the JSON response
+            $responseData = json_decode($response->getBody(), true);
 
-            // Log the successful response for debugging
-            Log::info("PayPal Capture Response: ", $responseData);
+            // 🔍 Find your local order based on PayPal order ID
+            // $order = Order::where('paypal_order_id', $orderID)->first();
 
-            // Handle the response, capture the order and update the database
-            return response()->json($responseData);
+            // if (!$order) {
+            //     return response()->json(['error' => 'Order not found in database.'], 404);
+            // }
+
+            // ✅ Return PayPal data + your local order ID
+            return response()->json([
+                'paypal' => $responseData,
+                'order_id' => $orderID
+            ]);
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             $errorResponse = $e->getResponse();
             $errorMessage = $errorResponse ? (string) $errorResponse->getBody() : 'Unknown error';
 
-            // Log the error details for debugging
             Log::error("PayPal Order Capture Failed: " . $errorMessage);
 
-            // Return the error response in a JSON format
             return response()->json([
                 'error' => 'Unable to capture order',
                 'details' => $errorMessage
             ], 400);
         }
     }
+
 
 
 }

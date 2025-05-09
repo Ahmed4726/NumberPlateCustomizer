@@ -108,7 +108,7 @@
         <!-- Grid column -->
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
           <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-          <p><i class="fas fa-home me-3"></i>30 Ranelagh Road, Southall, UB1 1DQ</p>
+          {{-- <p><i class="fas fa-home me-3"></i>30 Ranelagh Road, Southall, UB1 1DQ</p> --}}
           <p><i class="fas fa-envelope me-3"></i>sales@labonitaltd.co.uk</p>
           {{-- <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
           <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p> --}}

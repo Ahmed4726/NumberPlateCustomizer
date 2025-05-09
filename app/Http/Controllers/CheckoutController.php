@@ -44,8 +44,10 @@ class CheckoutController extends Controller
             'total_amount' => $totalAmount,
             'payment_status' => 'Paid',
             'order_details' => json_encode($cart),
-            'order_status' => 'Ready to pack',
+            'order_status' => 'Pending',
             'shipping_cost' => $shippingCost,
+            'order_number' => $request->order_id,
+            'remarks' => 'Your Order is Received and we are preparing your order! Thanks for Your Order.'
         ]);
 
         session()->forget(['cart', 'shipping']); // Clear the cart and shipping info

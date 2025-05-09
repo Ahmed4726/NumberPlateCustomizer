@@ -13,6 +13,8 @@ class Product extends Model
     protected $fillable = [
         'name',
         'description',
-        'price',
+        'pair_price',
+        'back_plate_price',
+        'front_plate_price',
     ];
 }

@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
 
     // Route::view('order','order');
     Route::get('/order', [OrderController::class, 'index'])->name('order');
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
+Route::put('/order/{id}/update-status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+
 
     Route::resource('products', ProductController::class);
     Route::get('/dashboard', function () {
@@ -71,5 +74,7 @@ require __DIR__.'/auth.php';
 // Auth::routes();
 
 Route::view('about','about');
+Route::view('test','test');
+
 Route::view('contact','contact');
 Route::view('gallery','gallery');

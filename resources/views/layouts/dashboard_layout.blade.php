@@ -123,25 +123,25 @@
                 </li>
 
                 <!-- Customers Link -->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="/customers">
                         <i class="fas fa-users"></i> Users
                     </a>
-                </li>
+                </li> --}}
 
                 <!-- Reports Link -->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="/reports">
                         <i class="fas fa-chart-line"></i> Reports
                     </a>
-                </li>
+                </li> --}}
 
                 <!-- Settings Link -->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="/settings">
                         <i class="fas fa-cogs"></i> Settings
                     </a>
-                </li>
+                </li> --}}
 
                 <!-- Logout Button -->
                 <li class="nav-item">
@@ -175,12 +175,12 @@
                                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                     </li>
                                 @endif
-
+{{--
                                 @if (Route::has('register'))
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                     </li>
-                                @endif
+                                @endif --}}
                             @else
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"

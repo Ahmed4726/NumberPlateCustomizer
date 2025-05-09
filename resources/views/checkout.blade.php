@@ -26,6 +26,8 @@
 
                 <input type="hidden" id="order-total" value="{{ $total }}">
                 <input type="hidden" id="shipping-cost" value="{{ $shippingCost }}">
+                <input type="hidden" name="order_id" id="order-id">
+
 
                 <div class="text-center">
                     <div id="paypal-button-container"></div>
@@ -66,13 +68,37 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(order => order.id);
         },
-        onApprove: function(data, actions) {
-            return fetch("{{ route('paypal.success') }}?token=" + data.orderID)
-            .then(response => response.json())
-            .then(details => {
+onApprove: function(data, actions) {
+    return fetch("{{ route('paypal.success') }}?token=" + data.orderID)
+    .then(response => response.json())
+    .then(details => {
+        Swal.fire({
+            title: "Payment Successful!",
+            text: "Your order has been placed successfully.",
+            icon: "success",
+            confirmButtonText: "OK"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Clear cart from localStorage
+                localStorage.removeItem('cart'); // or localStorage.clear() if you want to remove everything
+
+                document.getElementById('order-id').value = details.order_id;
+
                 document.getElementById('checkout-form').submit();
-            });
-        }
+            }
+        });
+    })
+    .catch(error => {
+        Swal.fire({
+            title: "Error!",
+            text: "Something went wrong with your payment.",
+            icon: "error",
+            confirmButtonText: "Try Again"
+        });
+    });
+}
+
+
     }).render('#paypal-button-container');
 });
 

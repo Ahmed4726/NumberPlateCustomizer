@@ -2,7 +2,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-<nav class="navbar navbar-expand-lg" style="background-color: rgba(0, 0, 0, 0.05);">
+<nav class="navbar navbar-expand-lg" style="background-color:#FFB400; color:black;">
   <div class="container-fluid">
     <a class="navbar-brand" href="/" style="display: inline-block;">
       <img src="images/logos.png" style="width: 150px; position: absolute; top: -45px; margin-left: 30px; z-index: 10;"/>
@@ -15,27 +15,27 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="/">Home</a>
+          <a class="nav-link active text-dark" href="/">Home</a>
         </li>
         {{-- <li class="nav-item">
           <a class="nav-link" href="#">Gallery</a>
         </li> --}}
         <li class="nav-item">
-          <a class="nav-link" href="/contact">Contact Us</a>
+          <a class="nav-link text-dark" href="/contact">Contact Us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/about">About Us</a>
+          <a class="nav-link text-dark" href="/about">About Us</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#trackOrderModal">
+            <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#trackOrderModal">
               Track Your Order
             </a>
           </li>
         <li class="nav-item mx-2 mt-2 position-relative">
             <a href="{{ route('cart.index') }}" class="text-dark">
                 <i class="fas fa-shopping-cart"></i>
-                <span id="cart-count" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                <span id="cart-count" class="badge bg-warning position-absolute top-0 start-100 translate-middle">
                     0
                 </span>
             </a>

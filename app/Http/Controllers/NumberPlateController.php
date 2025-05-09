@@ -43,45 +43,48 @@ class NumberPlateController extends Controller
 
     public function getPlatePrices(Request $request)
     {
-        // Default price values
         $plateType = $request->plate_type;
         $border = $request->border;
         $flag = $request->flag;
         $style = $request->style;
 
-        // Fetch prices from the products table
-        $basePrice = Product::where('name', 'printed')->value('price');
-        $frontPrice = Product::where('name', 'front')->value('price');
-        $rearPrice = Product::where('name', 'rear')->value('price');
-        $borderPrice = Product::where('name', 'border')->value('price');
-        $flagPrice = Product::where('name', 'flag')->value('price'); // Flag-specific price
-        $stylePrice = Product::where('name', $style)->value('price');
-
-        // Calculate total price
+        // Base price depending on the plate type
+        $product = Product::where('name', $style)->first();
         $totalPrice = 0;
 
+        if (!$product) {
+            return response()->json(['total_price' => 0]);
+        }
+
         if ($plateType === 'both') {
-            $totalPrice += ($frontPrice + $rearPrice);
+            $totalPrice += (float) $product->pair_price;
         } elseif ($plateType === 'front') {
-            $totalPrice += $frontPrice;
+            $totalPrice += (float) $product->front_plate_price;
         } elseif ($plateType === 'rear') {
-            $totalPrice += $rearPrice;
+            $totalPrice += (float) $product->back_plate_price;
         }
 
-        if ($border === 'border') {
-            $totalPrice += $borderPrice;
+        // Border price
+        if ($border !== 'none') {
+            $borderProduct = Product::where('name', 'border')->first();
+            if ($borderProduct) {
+                $totalPrice += (float) $borderProduct->pair_price;
+            }
         }
 
+        // Flag price
         if ($flag !== 'none') {
-            $totalPrice += $flagPrice;
-        }
-
-        if ($style !== 'normal') {
-            $totalPrice += $stylePrice;
+            $flagProduct = Product::where('name', 'flag')->first();
+            if ($flagProduct) {
+                $totalPrice += (float) $flagProduct->pair_price;
+            }
         }
 
         return response()->json([
-            'total_price' => $totalPrice
+            'total_price' => $totalPrice,
+            'is_pair_only' => $product->is_pair_only,
         ]);
+
     }
+
 }

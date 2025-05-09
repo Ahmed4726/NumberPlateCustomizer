@@ -29,7 +29,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* gap: 10px; */
         }
 
         .plate {
@@ -74,12 +73,13 @@
 }
 
 /* Flag Container (Left Side) */
-.flag-container {
+/* .flag-container {
     display: flex;
     position: absolute;
-    left: -30px;
+    left:650px;
+    z-index: 100;
 
-}
+} */
 
 
 /* Small Screens (Mobile) */
@@ -122,12 +122,13 @@
 
         .border {
             position: relative;
-            border: none;
+            /* border: none; */
             outline: 3px solid black;
             outline-offset: -7px;
-            display: flex;
-            align-items: center;
+            /* display: flex; */
+            /* align-items: center; */
             justify-content: center;
+
         }
 
         .border::after {
@@ -139,7 +140,7 @@
             font-size: 5px;
             font-family: "Charles Wright";
             color: black;
-            background: inherit;
+            /* background: inherit; */
             padding: 2px 6px;
             border-radius: 4px;
         }
@@ -169,20 +170,67 @@
 
 
 
-        .flag-container img {
+        /* .flag-container img {
             width: 100%;
             height: 100%;
-        }
+        } */
 
         .layout-3D {
-            color: rgb(0, 0, 0);
-            text-shadow:
-                1px 1px 2px rgba(0, 0, 0, 0.7),
-                -1px -1px 2px rgba(255, 255, 255, 0.5);
+            font-weight: bold;
+            color: #111;
+            text-shadow: 1px 1px 1px #111,
+
+        1px 1px 1px #111,
+    1px 18px 6px rgba(16,16,16,0.4),
+    1px 22px 10px rgba(16,16,16,0.2),
+    /* 1px 25px 35px rgba(16,16,16,0.2), */
+    1px 30px 60px rgba(16,16,16,0.4);
         }
 
         .layout-4D {
-            text-shadow: 2px 2px 2px gray;
+            font-weight: bold;
+            color: black;
+            text-shadow: 1px 1px 2px #444;
+        }
+
+        .layout-4D-laser {
+            font-weight: bold;
+            color: black;
+            text-shadow: 1px 1px 2px #444;
+        }
+
+        .layout-4D-retro {
+            font-weight: bold;
+            color: #333;
+            /* font-family: 'Courier New', monospace; */
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 0 #fff, 2px 2px 2px rgba(0,0,0,0.5);
+        }
+
+        .layout-3D-carbon {
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            /* font-family: 'Arial Black', sans-serif; */
+
+            /* Carbon fiber texture via diagonal stripes */
+            /* background: repeating-linear-gradient(
+                45deg,
+                #1c1c1c 0px,
+                #1c1c1c 2px,
+                #2c2c2c 2px,
+                #2c2c2c 4px
+            ); */
+            /* -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent; */
+
+            /* 3D effect */
+            text-shadow:
+                1px 1px 1px #000,
+                2px 2px 2px #000,
+                3px 3px 3px rgba(0,0,0,0.7),
+                -1px -1px 1px rgba(255,255,255,0.1);
         }
 
         .bottom-line {
@@ -203,11 +251,54 @@
         background-color: darkgoldenrod;
     } */
 
+.plate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    max-width: 90%;
+    margin-left: inherit;
+}
 
+
+.plate.flag-active {
+    justify-content: center;
+    /* padding-left: 10px; */
+    /* gap: 20px; */
+    text-align: left;
+    margin-left: -35px;
+}
+
+.plate:not(.flag-active) {
+    justify-content: center;
+    text-align: left;
+}
+
+.flag-container {
+    /* width: 40px; */
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: left;
+    justify-content: center;
+}
+
+.flag-container img {
+    height: 100%;
+    width: auto;
+    margin-left: -40px;
+}
+
+#plate_text::placeholder {
+    color: rgb(25 135 84); /* greyish-black */
+    opacity: 1; /* ensure it's fully visible */
+  }
 
     </style>
 <body>
-<div id="carouselExampleIndicators" class="carousel slide">
+    <div class="container-fluid p-0">
+        <img src="images/nEW 1.jpg" alt="Banner" class="img-fluid" />
+      </div>
+{{-- <div id="carouselExampleIndicators" class="carousel slide">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -244,12 +335,12 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
-</div>
-<div class="container-fluid" id="customizer">
+</div> --}}
+<div class="container" id="customizer">
     <div class="row" style="margin-left: 30px;">
         <div class="col-md-6">
             <div class="text-center mb-3 mt-5">
-                <input type="text" id="plate_text" class="plate-input" placeholder="ENTER REG" maxlength="8">
+                <input type="text" id="plate_text" class="plate-input border border-success border-5" placeholder="ENTER REG" maxlength="">
             </div>
 
             <div class="row">
@@ -275,7 +366,7 @@
                 <label class="form-label">FLAG:</label>
                 <select id="plate_flag" class="form-control">
                     <option value="none">No Flag</option>
-                    <option value="eu">EU</option>
+                    <option value="eu">EV</option>
                     <option value="gb">GB</option>
                     <option value="uk">UK</option>
                 </select>
@@ -283,34 +374,51 @@
 
             <div class="text-center mt-3">
                 <label class="form-label">CHOOSE TEXT STYLE:</label>
-                <div class="btn-group form-control" role="group">
-                    <button type="button" class="btn btn-outline-dark btn-style btn-selected" data-style="printed">Normal</button>
-                    <button type="button" class="btn btn-outline-dark btn-style" data-style="4D">4D</button>
-                    <button type="button" class="btn btn-outline-dark btn-style" data-style="3D">3D</button>
+                <div class="btn-group d-flex flex-wrap" role="group">
+                    <button type="button" class="btn btn-outline-dark btn-style btn-selected m-1" data-style="Standard">Standard</button>
+                    <button type="button" class="btn btn-outline-dark btn-style m-1" data-style="4D Gel 5mm">4D Gel</button>
+                    <button type="button" class="btn btn-outline-dark btn-style m-1" data-style="3D Gel 3mm">3D Gel</button>
+                    <button type="button" class="btn btn-outline-dark btn-style m-1" data-style="4D Laser Cut 3mm">4D Laser Cut</button>
+                    <button type="button" class="btn btn-outline-dark btn-style m-1" data-style="3D Carbon 3mm">3D Carbon</button>
+                    <button type="button" class="btn btn-outline-dark btn-style m-1" data-style="4D Retro">4D Retro</button>
                 </div>
             </div>
+
         </div>
 
         <div class="col-md-6 mt-4">
             <div class="" style="">
                 <div class="plate-preview mt-4">
                     <div class="plate front" id="front_plate">
-                        <div class="flag-container" id="front_flag"></div>
+                        <div class="" id="front_flag"></div>
                         <span id="plate-text-flag" class="plate-text">YOUR REG</span>
                         <div class="bottom-line" id="front_bottom_line"></div>
                     </div>
                 </div>
+
                 <div class="plate-preview mt-4">
                     <div class="plate back" id="back_plate">
-                        <div class="flag-container" id="back_flag"></div>
-                        <span id="plate-text-flag" class="plate-text ">YOUR REG</span>
+                        <div class="" id="back_flag"></div>
+                        <span id="plate-text-flag" class="plate-text">YOUR REG</span>
                         <div class="bottom-line" id="back_bottom_line"></div>
                     </div>
                 </div>
+
                 <div class="mt-3">
-                    <h4>&nbsp;&nbsp;&nbsp; Total Price: <span id="total_price">£0.00</span></h4>
+                    <div style="display: flex;">
+                        <!-- Text first -->
+
+                        <!-- Image 1 -->
+                        <img src="{{ asset('images/samdaysdi.gif') }}" alt="Image 1" class="mx-4" style=" width: 30%; margin-left: 5px;">
+
+                        <!-- Image 2 -->
+                        <img src="{{ asset('images/5starreview.png') }}" alt="Image 2" style="width: 55%; margin-left: 5px;">
+                    </div>
+                    <h4 class="mx-4 mt-5 fw-bold" style="margin: 0;">Total Price: <br><span id="total_price">£0.00</span></h4>
+
                     <input type="hidden" id="price_hidden" name="price_hidden">
                 </div>
+
 
                 <a href="#" class="btn btn-primary mt-4 mx-4" id="addToCart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
             </div>
@@ -582,6 +690,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.getElementById("plate_flag").addEventListener("change", function () {
     const selectedFlag = this.value;
+    const frontPlate = document.getElementById("front_plate");
+    const backPlate = document.getElementById("back_plate");
+    const front_flag = document.getElementById("front_flag");
+    const back_flag = document.getElementById("back_flag");
+
 
     if (selectedFlag !== "none") {
         fetch(`/get-flags?flag_name=${selectedFlag}`)
@@ -593,23 +706,59 @@ document.getElementById("plate_flag").addEventListener("change", function () {
                     document.getElementById("back_flag").innerHTML =
                         `<img src="${data.back_flag}" class="flag-image">`;
 
-                    // Adjust size dynamically
-                    document.querySelectorAll(".flag-image").forEach(img => {
-                        img.style.width = "100%";
-                        img.style.height = "auto";
-                        img.style.maxHeight = "100%";
-                    });
+                    frontPlate.classList.add("flag-active");
+                    back_flag.classList.add("flag-container");
+                    backPlate.classList.add("flag-active");
+                    front_flag.classList.add("flag-container");
+                    resizePlateText();
                 } else {
                     console.error("Flag data missing");
                 }
             })
             .catch(error => console.error("Error fetching flags:", error));
     } else {
-
         document.getElementById("front_flag").innerHTML = "";
         document.getElementById("back_flag").innerHTML = "";
+
+        frontPlate.classList.remove("flag-active");
+        front_flag.classList.remove("flag-container");
+
+        backPlate.classList.remove("flag-active");
+        back_flag.classList.remove("flag-container");
+
     }
 });
+
+// $(document).ready(function() {
+//     // Check if the flag container has any content (for demonstration, we check if the flag container has width)
+//     if ($('#front_flag').width() > 0) {
+//         $('#front_plate').addClass('plate-with-flag');  // Move text forward if flag exists
+//     }
+
+//     if ($('#back_flag').width() > 0) {
+//         $('#back_plate').addClass('plate-with-flag');  // Move text forward if flag exists
+//     }
+// });
+
+function resizePlateText() {
+    // alert('ok')
+    const text = $('.plate-text');
+    text.each(function () {
+        const $this = $(this);
+        let fontSize = 100;
+        $this.css({
+            'font-size': fontSize + 'px',
+            'white-space': 'nowrap' // force single line
+        });
+
+        while ($this[0].scrollWidth > $this.innerWidth() && fontSize > 12) {
+            fontSize -= 1;
+            $this.css('font-size', fontSize + 'px');
+        }
+    });
+}
+
+
 
 
 
@@ -620,15 +769,30 @@ function updatePreview() {
     let plateType = $('#plate_type').val();
     let border = $('#plate_border').val();
 
-    $('.plate-text').text(plateText || 'YOUR REG');
+    // $('.plate-text').text(plateText || 'YOUR REG');
+
+    // Check if plateText is empty or equals 'YOUR REG', and display 'YOUR REG' accordingly
+    if (plateText && plateText !== 'YOUR REG') {
+        $('.plate-text').text(plateText);
+        resizePlateText(); // Call resizePlateText only if plateText is not empty or 'YOUR REG'
+    } else {
+        $('.plate-text').text('YOUR REG');
+        $('.plate-text').css('font-size', '100px'); // Set font size to 100px for 'YOUR REG' or empty text
+    }
     $('.bottom-line').text(bottomText);
 
-    $('#front_plate, #back_plate').removeClass('layout-3D layout-4D border');
+    $('#front_plate, #back_plate').removeClass('layout-3D layout-4D layout-4D-laser layout-3D-carbon layout-4D-retro border');
 
-    if (layout === '3D') {
+    if (layout === '3D Gel 3mm') {
         $('#front_plate, #back_plate').addClass('layout-3D');
-    } else if (layout === '4D') {
+    } else if (layout === '4D Gel 5mm') {
         $('#front_plate, #back_plate').addClass('layout-4D');
+    } else if (layout === '4D Laser Cut 3mm') {
+        $('#front_plate, #back_plate').addClass('layout-4D-laser');
+    }  else if (layout === '4D Retro') {
+        $('#front_plate, #back_plate').addClass('layout-4D-retro');
+    } else if (layout === '3D Carbon 3mm') {
+        $('#front_plate, #back_plate').addClass('layout-3D-carbon');
     }
 
     if (border === 'border') {
@@ -639,6 +803,7 @@ function updatePreview() {
         $('#front_plate, #back_plate').removeAttr('data-bottom-text');
         $('#front_bottom_line, #back_bottom_line').removeClass('d-none');
     }
+    // resizePlateText();
 
     if (plateType === 'front') {
         $('#front_plate').show();
@@ -649,6 +814,10 @@ function updatePreview() {
     } else {
         $('#front_plate, #back_plate').show();
     }
+
+    // setTimeout(function() {
+        resizePlateText();  // Recalculate font size after DOM changes
+    // }, 10); // Use a small delay to allow for DOM updates
 }
 
 $('#plate_text, #bottom_line').on('input', updatePreview);
@@ -664,21 +833,42 @@ $('#save').on('click', function() {
     alert("Customization saved!");
 });
 function updatePrice() {
-    const plateType = document.getElementById("plate_type").value;
+    const plateTypeSelect = document.getElementById("plate_type");
     const border = document.getElementById("plate_border").value;
     const flag = document.getElementById("plate_flag").value;
     const selectedStyle = document.querySelector(".btn-style.btn-selected").getAttribute("data-style");
 
-    fetch(`/plate-prices?plate_type=${plateType}&border=${border}&flag=${flag}&style=${selectedStyle}`)
+    fetch(`/plate-prices?plate_type=${plateTypeSelect.value}&border=${border}&flag=${flag}&style=${selectedStyle}`)
         .then(response => response.json())
         .then(data => {
             if (data.total_price) {
                 document.getElementById("total_price").innerText = `£${data.total_price.toFixed(2)}`;
                 document.getElementById("price_hidden").value = data.total_price;
             }
+
+            // Handle is_pair_only
+            if (data.is_pair_only == "1" || data.is_pair_only == 1) {
+                // Force "Front & Rear"
+                plateTypeSelect.value = "both";
+
+                // Disable other options
+                [...plateTypeSelect.options].forEach(option => {
+                    if (option.value != "both") {
+                        option.disabled = true;
+                    }
+                });
+                updatePreview();
+                updatePrice();
+            } else {
+                // Enable all options
+                [...plateTypeSelect.options].forEach(option => {
+                    option.disabled = false;
+                });
+            }
         })
         .catch(error => console.error("Error fetching prices:", error));
 }
+
 
 // Listen for changes in all options
 document.getElementById("plate_type").addEventListener("change", updatePrice);

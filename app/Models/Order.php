@@ -18,5 +18,8 @@ class Order extends Model
         'payment_status',  // Payment status (e.g., 'pending', 'completed')
         'transaction_id',  // PayPal transaction ID
         'order_status',
+        'remarks',
+        'shipping_cost',
+        'order_number',
     ];
 }
